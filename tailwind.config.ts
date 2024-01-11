@@ -23,6 +23,14 @@ const config: Config = {
           200: "#312BA0",
           300: "#201C6C",
         },
+        secondary_red: {
+          0: "#FEEFF2",
+          25: "#FADAE1",
+          50: "#ED8296",
+          100: "#DF1C41",
+          200: "#95122B",
+          300: "#710E21",
+        },
         text: {
           white: "#FFFFFF",
           disabled: "#A4ABB8",
@@ -30,6 +38,22 @@ const config: Config = {
           normal: "#666D80",
           muted: "#353849",
           loud: "#0D0D12",
+        },
+        background: {
+          white: "#FFFFFF",
+          disabled: "#F8F9FB",
+          normal: "#F6F8FA",
+          hover: "#ECEFF3",
+          pressed: "#DFE1E6",
+          loud: "#0D0D12",
+        },
+
+        border: {
+          white: "#FFFFFF",
+          disabled: "#F6F8FA",
+          normal: "#ECEFF3",
+          hover: "#DFE1E6",
+          pressed: "#C1C7CF",
         },
       },
     },
