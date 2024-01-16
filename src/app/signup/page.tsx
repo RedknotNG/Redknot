@@ -4,18 +4,23 @@ import BankDetailsIcon from "@/icons/bankDetailsIcon";
 import CreatePasswordIcon from "@/icons/createPasswordIcon";
 import DetailsIcon from "@/icons/detailsIcon";
 import RedKnotIcon from "@/icons/redknot";
-import { SignUpInitData } from "@/lib/initData";
+import {
+  BankDetailsInitData,
+  SignUpInitData,
+  YourDetailsInitData,
+} from "@/lib/initData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 const yourDetailsSchema = z.object({
   name: z.string().min(1, "Full name is required"),
   email: z.string().email().min(1, "Email is required"),
   phone: z.string().min(1, "Phone number is required"),
-  refer: z.string().min(1, "Referral ID is required"),
+  refer: z.string(),
 });
 
 const bankDetailsSchema = z.object({
@@ -26,25 +31,64 @@ const bankDetailsSchema = z.object({
   }),
   bank_account_name: z.string().min(1, "Bank account name is required"),
 });
+const passwordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(1, "Password is required")
+      .min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords does not match",
+  });
 
 export type TYourDetailsSchema = z.infer<typeof yourDetailsSchema>;
 
 export type TBankDetailsSchema = z.infer<typeof bankDetailsSchema>;
 
+export type TPasswordSchema = z.infer<typeof passwordSchema>;
+
 export type SignUpSchema = {} & TYourDetailsSchema & TBankDetailsSchema;
 
 export default function SignUp() {
   const [signUpData, setSignUpData] = useState<SignUpSchema>(SignUpInitData);
+  const [yourDetailsData, setYourDetailsData] =
+    useState<TYourDetailsSchema>(YourDetailsInitData);
+  const [bankDetailsData, setBankDetailsData] =
+    useState<TBankDetailsSchema>(BankDetailsInitData);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [totalIndex, setTotalIndex] = useState(0);
 
-  function YourDetailsCB(data: TYourDetailsSchema, next: number) {
+  const router = useRouter();
+
+  function yourDetailsCB(data: TYourDetailsSchema, next: number) {
     setSignUpData({ ...signUpData, ...data });
+    setYourDetailsData(data);
     setCurrentIndex(next);
+    if (totalIndex < next) {
+      setTotalIndex(next);
+    }
   }
 
-  function BankDetailsCB(data: TBankDetailsSchema, next: number) {
+  function bankDetailsCB(data: TBankDetailsSchema, next: number) {
     setSignUpData({ ...signUpData, ...data });
+    setBankDetailsData(data);
     setCurrentIndex(next);
+    if (totalIndex < next) {
+      setTotalIndex(next);
+    }
+  }
+
+  function passwordCB(data: TPasswordSchema) {
+    // setSignUpData({ ...signUpData, ...data });
+    const payload = {
+      ...signUpData,
+      password: data.password,
+    };
+    console.log(payload);
+    router.replace("/");
   }
 
   useEffect(() => {
@@ -68,17 +112,21 @@ export default function SignUp() {
           </div>
 
           <div className="w-full grid grid-cols-3 gap-[24px]">
-            <div className="w-full flex flex-col gap-[16px]">
+            <button
+              disabled={totalIndex < 0}
+              onClick={() => setCurrentIndex(0)}
+              className="w-full flex flex-col gap-[16px]"
+            >
               <div
                 className="w-full h-[4px]"
                 style={{
-                  backgroundColor: currentIndex >= 0 ? "#5E56FF" : "#DFE1E6",
+                  backgroundColor: totalIndex >= 0 ? "#5E56FF" : "#DFE1E6",
                 }}
               ></div>
 
               <div className="flex gap-[12px]">
                 <DetailsIcon />
-                <div className="flex flex-col">
+                <div className="flex flex-col items-start">
                   <p
                     className={
                       currentIndex >= 0
@@ -99,19 +147,23 @@ export default function SignUp() {
                   </p>
                 </div>
               </div>
-            </div>
+            </button>
 
-            <div className="w-full flex flex-col gap-[16px]">
+            <button
+              disabled={totalIndex < 1}
+              onClick={() => setCurrentIndex(1)}
+              className="w-full flex flex-col gap-[16px]"
+            >
               <div
                 className="w-full h-[4px]"
                 style={{
-                  backgroundColor: currentIndex >= 1 ? "#5E56FF" : "#DFE1E6",
+                  backgroundColor: totalIndex >= 1 ? "#5E56FF" : "#DFE1E6",
                 }}
               ></div>
 
               <div className="flex gap-[12px]">
                 <BankDetailsIcon />
-                <div className="flex flex-col">
+                <div className="flex flex-col items-start">
                   <p
                     className={
                       currentIndex >= 1
@@ -132,13 +184,17 @@ export default function SignUp() {
                   </p>
                 </div>
               </div>
-            </div>
+            </button>
 
-            <div className="w-full flex flex-col gap-[16px]">
+            <button
+              disabled={totalIndex < 2}
+              onClick={() => setCurrentIndex(2)}
+              className="w-full flex flex-col gap-[16px]"
+            >
               <div
                 className="w-full h-[4px]"
                 style={{
-                  backgroundColor: currentIndex >= 2 ? "#5E56FF" : "#DFE1E6",
+                  backgroundColor: totalIndex >= 2 ? "#5E56FF" : "#DFE1E6",
                 }}
               ></div>
 
@@ -165,7 +221,7 @@ export default function SignUp() {
                   </p>
                 </div>
               </div>
-            </div>
+            </button>
           </div>
         </div>
       </div>
@@ -182,9 +238,15 @@ export default function SignUp() {
 
         </div>)} */}
 
-        {currentIndex === 0 ? <YourDetails cb={YourDetailsCB} /> : null}
+        {currentIndex === 0 ? (
+          <YourDetails cb={yourDetailsCB} init={yourDetailsData} />
+        ) : null}
 
-        {currentIndex === 1 ? <BankDetails cb={BankDetailsCB} /> : null}
+        {currentIndex === 1 ? (
+          <BankDetails cb={bankDetailsCB} init={bankDetailsData} />
+        ) : null}
+
+        {currentIndex === 2 ? <PasswordDetails cb={passwordCB} /> : null}
       </div>
     </main>
   );
@@ -192,8 +254,10 @@ export default function SignUp() {
 
 function YourDetails({
   cb,
+  init,
 }: {
   cb: (data: TYourDetailsSchema, next: number) => void;
+  init: TYourDetailsSchema;
 }) {
   const {
     register,
@@ -202,6 +266,7 @@ function YourDetails({
     reset,
   } = useForm<TYourDetailsSchema>({
     resolver: zodResolver(yourDetailsSchema),
+    defaultValues: init,
   });
 
   function onSubmit(data: TYourDetailsSchema) {
@@ -305,7 +370,7 @@ function YourDetails({
             type="submit"
             className="w-fit bg-primary-100 text-center py-[12px] px-[20px] font-montserrat font-semibold text-[16px] text-text-white rounded-[6px]"
           >
-            Continue
+            Save & Continue
           </button>
         </div>
       </form>
@@ -315,8 +380,10 @@ function YourDetails({
 
 function BankDetails({
   cb,
+  init,
 }: {
   cb: (data: TBankDetailsSchema, next: number) => void;
+  init: TBankDetailsSchema;
 }) {
   const {
     register,
@@ -325,6 +392,7 @@ function BankDetails({
     reset,
   } = useForm<TBankDetailsSchema>({
     resolver: zodResolver(bankDetailsSchema),
+    defaultValues: init,
   });
 
   function onSubmit(data: TBankDetailsSchema) {
@@ -412,7 +480,86 @@ function BankDetails({
             type="submit"
             className="w-fit bg-primary-100 text-center py-[12px] px-[20px] font-montserrat font-semibold text-[16px] text-text-white rounded-[6px]"
           >
-            Continue
+            Save & Continue
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+function PasswordDetails({ cb }: { cb: (data: TPasswordSchema) => void }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<TPasswordSchema>({
+    resolver: zodResolver(passwordSchema),
+  });
+
+  function onSubmit(data: TPasswordSchema) {
+    cb(data);
+  }
+  return (
+    <div className="w-full flex justify-between">
+      <div className="flex flex-col gap-[10px]">
+        <h4 className="text-text-loud leading-[32px]">Choose a password</h4>
+        <h6 className="font-normal leading-[24px] text-text-normal">
+          Choose a secure password
+        </h6>
+      </div>
+
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-[40%] flex flex-col gap-[16px]"
+      >
+        <div className="w-full flex flex-col gap-[10px]">
+          <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px]">
+            <label htmlFor="">
+              <p className="small text-text-muted">Create a password</p>
+            </label>
+            <input
+              {...register("password")}
+              type="password"
+              placeholder="Create a password"
+              className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
+            />
+          </div>
+
+          {errors.password && (
+            <p className="x-small w-full text-left text-secondary_red-100 leading-[14px]">
+              {`${errors.password.message}`}
+            </p>
+          )}
+        </div>
+
+        <div className="w-full flex flex-col gap-[10px]">
+          <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px]">
+            <label htmlFor="">
+              <p className="small text-text-muted">Confirm password</p>
+            </label>
+            <input
+              {...register("confirmPassword")}
+              type="password"
+              placeholder="Confirm your password"
+              className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
+            />
+          </div>
+
+          {errors.confirmPassword && (
+            <p className="x-small w-full text-left text-secondary_red-100 leading-[14px]">
+              {`${errors.confirmPassword.message}`}
+            </p>
+          )}
+        </div>
+
+        <div className="w-full flex justify-end items-center mt-[16px]">
+          <button
+            type="submit"
+            className="w-fit bg-primary-100 text-center py-[12px] px-[20px] font-montserrat font-semibold text-[16px] text-text-white rounded-[6px]"
+          >
+            Register
           </button>
         </div>
       </form>

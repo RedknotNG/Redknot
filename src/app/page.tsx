@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import bg1 from "../../public/bg1.png";
-import redknot from "../../public/redknot.svg";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -10,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import RedKnotIcon from "@/icons/redknot";
+import { useRouter } from "next/navigation";
 
 const earnersLoginSchema = z.object({
   email: z.string().email().min(1, "Email is required"),
@@ -18,8 +18,11 @@ const earnersLoginSchema = z.object({
 
 export type TEarnersLoginSchema = z.infer<typeof earnersLoginSchema>;
 
-export default function Home() {
+export default function Login() {
   const [togglePassword, setTogglePassword] = useState(false);
+
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -31,6 +34,7 @@ export default function Home() {
 
   function onSubmit(data: TEarnersLoginSchema) {
     console.log(data);
+    router.push("/earner/dashboard");
   }
 
   return (
@@ -39,13 +43,7 @@ export default function Home() {
         <div className="w-[50%] h-screen relative">
           <div className="w-full h-screen absolute top-0 left-0">
             <div className="w-full h-screen">
-              <Image
-                src={bg1}
-                alt="BG 1"
-                layout="fill"
-                sizes="100vw"
-                className="w-full"
-              />
+              <Image src={bg1} alt="BG 1" sizes="100vw" className="w-full" />
             </div>
           </div>
 
@@ -157,7 +155,7 @@ export default function Home() {
                 <button
                   disabled={isSubmitting}
                   type="submit"
-                  className="disabled:opacity-70 w-full bg-primary-100 text-center p-[12px] font-montserrat font-semibold text-[16px] text-text-white rounded-[6px]"
+                  className="disabled:opacity-70 w-full bg-primary-100 text-center p-[12px] font-inter font-semibold text-[16px] text-text-white rounded-[6px]"
                 >
                   {isSubmitting ? "Logging in..." : "Login"}
                 </button>
