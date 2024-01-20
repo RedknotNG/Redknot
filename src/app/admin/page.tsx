@@ -1,13 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import RedKnotIcon from "@/icons/redknot";
+import RedKnotIcon from "@/icons/Redknot";
 
 const adminLoginSchema = z.object({
   email: z.string().email().min(1, "Email is required"),

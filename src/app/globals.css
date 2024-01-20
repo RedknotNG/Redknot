@@ -95,3 +95,20 @@ p.x-small {
     #050210;
   box-shadow: 0px 0px 0px 1px #020104, 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
 }
+.shadow {
+  box-shadow: 0px 0px 0px 1px rgba(214, 216, 222, 0.25),
+    0px 1px 2px -1px rgba(12, 21, 28, 0.05),
+    0px 1px 3px 0px rgba(12, 21, 28, 0.05);
+}
+
+.icon-shadow {
+  box-shadow: 0px 0px 0px 1px #eceff3;
+}
+
+.green-shadow {
+  box-shadow: 0px 0px 0px 0.6px #c4ebd2;
+}
+
+.red-shadow {
+  box-shadow: 0px 0px 0px 0.6px rgba(200, 28, 28, 0.24);
+}

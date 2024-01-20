@@ -1,9 +1,9 @@
 "use client";
 
-import BankDetailsIcon from "@/icons/bankDetailsIcon";
-import CreatePasswordIcon from "@/icons/createPasswordIcon";
-import DetailsIcon from "@/icons/detailsIcon";
-import RedKnotIcon from "@/icons/redknot";
+import BankDetailsIcon from "@/icons/BankDetailsIcon";
+import CreatePasswordIcon from "@/icons/CreatePasswordIcon";
+import DetailsIcon from "@/icons/DetailsIcon";
+import RedKnotIcon from "@/icons/Redknot";
 import {
   BankDetailsInitData,
   SignUpInitData,
@@ -232,11 +232,6 @@ export default function SignUp() {
           </h2>
           <div className="w-full bg-border-normal h-[1px]"></div>
         </div>
-
-        {/* {[0,1,2].map((data)=><div key={data} className="w-full">
-{data === }
-
-        </div>)} */}
 
         {currentIndex === 0 ? (
           <YourDetails cb={yourDetailsCB} init={yourDetailsData} />
