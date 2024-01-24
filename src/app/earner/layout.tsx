@@ -3,11 +3,11 @@
 import { inter } from "../fonts";
 import "../globals.css";
 import Link from "next/link";
-import RedKnotSmallIcon from "@/icons/RedknotSmall";
 import { usePathname } from "next/navigation";
 import CartIcon from "@/icons/CartIcon";
 import Image from "next/image";
 import ProfileImg from "../../../public/Profile.png";
+import RedKnotSmallIcon from "@/icons/RedknotSmallIcon";
 
 const navLinkData = [
   { title: "Dashboard", path: "/earner/dashboard" },

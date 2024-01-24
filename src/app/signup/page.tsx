@@ -1,9 +1,5 @@
 "use client";
 
-import BankDetailsIcon from "@/icons/BankDetailsIcon";
-import CreatePasswordIcon from "@/icons/CreatePasswordIcon";
-import DetailsIcon from "@/icons/DetailsIcon";
-import RedKnotIcon from "@/icons/Redknot";
 import {
   BankDetailsInitData,
   SignUpInitData,
@@ -15,6 +11,10 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
+import BankDetailsIcon from "@/icons/BankDetailsIcon";
+import CreatePasswordIcon from "@/icons/CreatePasswordIcon";
+import DetailsIcon from "@/icons/DetailsIcon";
+import RedKnotIcon from "@/icons/RedknotIcon";
 
 const yourDetailsSchema = z.object({
   name: z.string().min(1, "Full name is required"),

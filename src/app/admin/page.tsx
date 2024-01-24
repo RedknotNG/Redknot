@@ -6,7 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import RedKnotIcon from "@/icons/Redknot";
+import RedKnotIcon from "@/icons/RedknotIcon";
 
 const adminLoginSchema = z.object({
   email: z.string().email().min(1, "Email is required"),
