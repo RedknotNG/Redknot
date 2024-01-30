@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import RedKnotIcon from "@/icons/RedknotIcon";
+import { useRouter } from "next/navigation";
 
 const adminLoginSchema = z.object({
   email: z.string().email().min(1, "Email is required"),
@@ -17,6 +18,9 @@ export type TAdminLoginSchema = z.infer<typeof adminLoginSchema>;
 
 export default function AdminLogin() {
   const [togglePassword, setTogglePassword] = useState(false);
+
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -28,6 +32,7 @@ export default function AdminLogin() {
 
   function onSubmit(data: TAdminLoginSchema) {
     console.log(data);
+    router.push("/admin/dashboard");
   }
 
   return (

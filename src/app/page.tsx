@@ -39,11 +39,17 @@ export default function Login() {
 
   return (
     <main className="w-full flex items-center justify-center">
-      <div className="w-full max-w-[1400px] flex items-center justify-between">
+      <div className="w-full flex items-center justify-between">
         <div className="w-[50%] h-screen relative">
           <div className="w-full h-screen absolute top-0 left-0">
             <div className="w-full h-screen">
-              <Image src={bg1} alt="BG 1" sizes="100vw" className="w-full" />
+              <Image
+                src={bg1}
+                alt="BG 1"
+                layout="fill"
+                sizes="100vw"
+                className="w-full"
+              />
             </div>
           </div>
 

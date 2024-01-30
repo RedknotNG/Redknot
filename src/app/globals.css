@@ -112,3 +112,7 @@ p.x-small {
 .red-shadow {
   box-shadow: 0px 0px 0px 0.6px rgba(200, 28, 28, 0.24);
 }
+
+.adminWidth {
+  width: calc(100vw - 272px);
+}
