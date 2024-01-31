@@ -18,9 +18,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LevelDropDown from "@/components/DefaultLevelDrop";
 import UploadIcon from "@/icons/UploadIcon";
+import clsx from "clsx";
 
 const earnerLevelSchema = z.object({
-  name: z.string().email().min(1, "Level Name is required"),
+  name: z.string().min(1, "Level Name is required"),
   salary: z.number({
     required_error: "Base Salary is required",
     invalid_type_error: "Base Salary must be a number",
@@ -48,9 +49,10 @@ export default function AdminCreateLevel() {
 
   const uploadImageRef = useRef(null);
 
-  // function addImage() {
-  //   uploadImageRef.current.click();
-  // }
+  function addImage() {
+    console.log("clicked");
+    uploadImageRef.current;
+  }
 
   function dropDownCB(value: string) {
     setLevel(value);
@@ -101,7 +103,7 @@ export default function AdminCreateLevel() {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log(e.dataTransfer);
+    console.log(e.dataTransfer.files[0]);
 
     // validate file type
     // if (e.dataTransfer.files && e.dataTransfer.files[0]) {
@@ -126,7 +128,7 @@ export default function AdminCreateLevel() {
     //       })
     //     );
 
-    //     setDragActive(false);
+    setDragActive(false);
 
     //     // at least one file has been selected
     //     addFilesToState(filesWithUrl);
@@ -193,8 +195,8 @@ export default function AdminCreateLevel() {
           </h5>
 
           <div className="w-full max-w-[740px] grid grid-cols-2 gap-[24px]">
-            <div className="w-full flex flex-col gap-[10px] bg-background-white">
-              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px]">
+            <div className="w-full flex flex-col gap-[10px]">
+              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
                 <label htmlFor="">
                   <p className="small text-text-muted">Level name*</p>
                 </label>
@@ -213,8 +215,8 @@ export default function AdminCreateLevel() {
               )}
             </div>
 
-            <div className="w-full flex flex-col gap-[10px] bg-background-white">
-              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px]">
+            <div className="w-full flex flex-col gap-[10px]">
+              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
                 <label htmlFor="">
                   <p className="small text-text-muted">Default level*</p>
                 </label>
@@ -223,8 +225,8 @@ export default function AdminCreateLevel() {
               </div>
             </div>
 
-            <div className="w-full flex flex-col gap-[10px] bg-background-white">
-              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px]">
+            <div className="w-full flex flex-col gap-[10px]">
+              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
                 <label htmlFor="">
                   <p className="small text-text-muted">Base salary (₦)*</p>
                 </label>
@@ -245,8 +247,8 @@ export default function AdminCreateLevel() {
               )}
             </div>
 
-            <div className="w-full flex flex-col gap-[10px] bg-background-white">
-              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px]">
+            <div className="w-full flex flex-col gap-[10px]">
+              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
                 <label htmlFor="">
                   <p className="small text-text-muted">Quarterly bonus (₦)*</p>
                 </label>
@@ -267,8 +269,8 @@ export default function AdminCreateLevel() {
               )}
             </div>
 
-            <div className="w-full flex flex-col gap-[10px] bg-background-white">
-              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px]">
+            <div className="w-full flex flex-col gap-[10px]">
+              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
                 <label htmlFor="">
                   <p className="small text-text-muted">Commission (%)*</p>
                 </label>
@@ -289,8 +291,8 @@ export default function AdminCreateLevel() {
               )}
             </div>
 
-            <div className="w-full flex flex-col gap-[10px] bg-background-white">
-              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px]">
+            <div className="w-full flex flex-col gap-[10px] ">
+              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
                 <label htmlFor="">
                   <p className="small text-text-muted">Monthly sales target*</p>
                 </label>
@@ -317,7 +319,13 @@ export default function AdminCreateLevel() {
               Upload visual cue or badge to represent level
             </p>
 
-            <div className="relative w-full flex flex-col gap-[15px] py-[24px] justify-center items-center bg-background-white">
+            <div
+              className={clsx(
+                "relative w-full flex flex-col gap-[15px] py-[24px] justify-center items-center rounded-[6px]  border-[1px] border-dashed border-dashed-[#D0D5DD]",
+                { "bg-background-hover": dragActive },
+                { "bg-background-white": !dragActive }
+              )}
+            >
               <div
                 className="absolute inset-0 cursor-pointer z-30"
                 onDragEnter={handleDrag}
@@ -332,32 +340,31 @@ export default function AdminCreateLevel() {
 
               <div className="flex flex-col gap-[5px]">
                 <div className="flex gap-[5px]">
-                  <button>
+                  <button type="button" onClick={addImage} className="z-30">
                     <p className="small text-primary-100 font-semibold leading-[20px]">
                       Click here to upload image
                     </p>
-                  </button>{" "}
+                  </button>
                   <p className="small text-text-normal leading-[20px]">
                     or drag and drop
-                  </p>{" "}
+                  </p>
                 </div>
 
                 <p className="small text-text-normal leading-[20px]">
                   SVG, PNG, JPG or GIF (max.{" "}
-                  <span className="stroke-slate-500">800x400px</span>)
+                  <span className="line-through">800x400px</span>)
                 </p>
               </div>
-
-              <input
-                // ref={uploadImageRef}
-                onChange={handleChange}
-                // accept="image/jpeg, image/jpg, image/png"
-                id="dropzone-file"
-                type="file"
-                className="hidden"
-              />
             </div>
           </div>
+          <input
+            ref={uploadImageRef}
+            onChange={handleChange}
+            accept="image/jpeg, image/jpg, image/png"
+            id="dropzone-file"
+            type="file"
+            className="hidden"
+          />
 
           <div className="h-[0.5px] w-full bg-background-pressed"></div>
 
