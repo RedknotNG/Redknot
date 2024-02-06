@@ -8,6 +8,7 @@ import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import RedKnotIcon from "@/icons/RedknotIcon";
 import { useRouter } from "next/navigation";
+import { useLogin } from "@/api/api";
 
 const adminLoginSchema = z.object({
   email: z.string().email().min(1, "Email is required"),
@@ -18,6 +19,18 @@ export type TAdminLoginSchema = z.infer<typeof adminLoginSchema>;
 
 export default function AdminLogin() {
   const [togglePassword, setTogglePassword] = useState(false);
+  const [loginErrorMsg, setLoginErrorMsg] = useState("");
+
+  const { mutate: Login, isPending } = useLogin(cb, errCB);
+
+  function cb() {
+    setLoginErrorMsg("");
+    router.push("/admin/dashboard");
+  }
+
+  function errCB(errMsg: string) {
+    setLoginErrorMsg(errMsg);
+  }
 
   const router = useRouter();
 
@@ -31,8 +44,7 @@ export default function AdminLogin() {
   });
 
   function onSubmit(data: TAdminLoginSchema) {
-    console.log(data);
-    router.push("/admin/dashboard");
+    Login(data);
   }
 
   return (
@@ -115,13 +127,19 @@ export default function AdminLogin() {
 
           <div className="w-full flex justify-center items-center">
             <button
-              disabled={isSubmitting}
+              disabled={isSubmitting || isPending}
               type="submit"
               className="disabled:opacity-70 admin-login-button w-full text-center p-[12px] font-inter font-semibold text-[16px] text-text-white rounded-[6px]"
             >
-              {isSubmitting ? "Logging in..." : "Login"}
+              {isSubmitting || isPending ? "Logging in..." : "Login"}
             </button>
           </div>
+
+          {loginErrorMsg && (
+            <p className="x-small w-full text-left text-secondary_red-100 leading-[14px]">
+              {`${loginErrorMsg}`}
+            </p>
+          )}
 
           <div className="w-full flex justify-center">
             <div className="flex gap-[5px]">

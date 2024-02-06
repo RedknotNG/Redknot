@@ -4,7 +4,7 @@ import AddIcon from "@/icons/AddIcon";
 import AdminEarnerLevelsIcon from "@/icons/AdminLayout/AdminEarnerLevelsIcon";
 import SlashIcon from "@/icons/SlashIcon";
 import Link from "next/link";
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import {
   Column,
   ColumnDef,
@@ -23,6 +23,8 @@ import EarnerLevelThree from "../../../../public/earnerLevel3.png";
 import Image, { StaticImageData } from "next/image";
 import EditIcon from "@/icons/EditIcon";
 import ViewIcon from "@/icons/ViewIcon";
+import { useQuery } from "@tanstack/react-query";
+import { UseGetEarnerLevels } from "@/api/api";
 
 type EarnerLevelTableDataSchema = {
   dateCreated: string;
@@ -71,6 +73,20 @@ const tableData: EarnerLevelTableDataSchema[] = [
 export default function AdminEarnerLevels() {
   const [data, setData] = useState(() => [...tableData]);
   const [searchValue, setSearchValue] = useState("");
+
+  const { data: earnerLevels, isLoading } = useQuery({
+    queryFn: () => UseGetEarnerLevels(),
+    queryKey: ["getEarnerLevels"],
+  });
+
+  function currencyFormat(num: number) {
+    return "₦" + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "₦1,");
+  }
+
+  useEffect(() => {
+    console.log(earnerLevels);
+    console.log(currencyFormat(134567));
+  }, [earnerLevels]);
 
   const columns = useMemo<ColumnDef<EarnerLevelTableDataSchema>[]>(
     () => [
