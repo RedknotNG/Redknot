@@ -3,9 +3,8 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
 export function useLogin(cb: () => void, errCB: (errMsg: string) => void) {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   return useMutation({
     mutationFn: function (payload: { email: string; password: string }) {
       return axios.post(`${BASE_URL}/auth/login`, payload);
@@ -22,6 +21,7 @@ export function useLogin(cb: () => void, errCB: (errMsg: string) => void) {
 }
 
 export const UseGetEarnerLevels = async () => {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const redknot_admin = Cookies.get("redknot_admin");
   try {
     const response = await axios.get(`${BASE_URL}/levels`, {
@@ -37,6 +37,7 @@ export const UseGetEarnerLevels = async () => {
 };
 
 export function useCreateLevel(createLevelCB: () => void) {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const redknot_admin = Cookies.get("redknot_admin");
   return useMutation({
     mutationFn: function (
