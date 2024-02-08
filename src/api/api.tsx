@@ -1,3 +1,4 @@
+import { TEarnerLevelSchema } from "@/app/admin/earner-levels/create-level/page";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -34,3 +35,22 @@ export const UseGetEarnerLevels = async () => {
     console.error(error);
   }
 };
+
+export function useCreateLevel(createLevelCB: () => void) {
+  const redknot_admin = Cookies.get("redknot_admin");
+  return useMutation({
+    mutationFn: function (
+      payload: TEarnerLevelSchema & { is_default: boolean }
+    ) {
+      return axios.post(`${BASE_URL}/levels`, payload, {
+        headers: {
+          Authorization: "Bearer " + redknot_admin,
+        },
+      });
+    },
+    onSuccess: function (data: any) {
+      console.log(data);
+      createLevelCB();
+    },
+  });
+}

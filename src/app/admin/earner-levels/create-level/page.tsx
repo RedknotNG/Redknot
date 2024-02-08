@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import LevelDropDown from "@/components/DefaultLevelDrop";
 import UploadIcon from "@/icons/UploadIcon";
 import clsx from "clsx";
+import { useCreateLevel } from "@/api/api";
 
 const earnerLevelSchema = z.object({
   name: z.string().min(1, "Level Name is required"),
@@ -34,7 +35,7 @@ const earnerLevelSchema = z.object({
     required_error: "Commission is required",
     invalid_type_error: "Commission must be a number",
   }),
-  target: z.number({
+  sale_target: z.number({
     required_error: "Monthly Sales Target is required",
     invalid_type_error: "Monthly Sales Target must be a number",
   }),
@@ -43,10 +44,15 @@ const earnerLevelSchema = z.object({
 export type TEarnerLevelSchema = z.infer<typeof earnerLevelSchema>;
 
 export default function AdminCreateLevel() {
-  const [level, setLevel] = useState("Yes");
+  const [level, setLevel] = useState(true);
   const router = useRouter();
   const [dragActive, setDragActive] = useState<boolean>(false);
 
+  const { mutate: createLevel, isPending } = useCreateLevel(createLevelCB);
+
+  function createLevelCB() {
+    router.push("/admin/earner-levels");
+  }
   const uploadImageRef = useRef(null);
 
   function addImage() {
@@ -54,7 +60,7 @@ export default function AdminCreateLevel() {
     uploadImageRef.current;
   }
 
-  function dropDownCB(value: string) {
+  function dropDownCB(value: boolean) {
     setLevel(value);
   }
 
@@ -150,8 +156,12 @@ export default function AdminCreateLevel() {
   });
 
   function onSubmit(data: TEarnerLevelSchema) {
-    console.log(data);
-    // router.push("/admin/dashboard");
+    const payload = {
+      ...data,
+      is_default: level,
+    };
+    console.log(payload);
+    createLevel(payload);
   }
   return (
     <div className="adminWidth flex flex-col gap-[50px] p-[32px]">
@@ -297,7 +307,7 @@ export default function AdminCreateLevel() {
                   <p className="small text-text-muted">Monthly sales target*</p>
                 </label>
                 <input
-                  {...register("target", {
+                  {...register("sale_target", {
                     valueAsNumber: true,
                   })}
                   type="text"
@@ -306,9 +316,9 @@ export default function AdminCreateLevel() {
                 />
               </div>
 
-              {errors.target && (
+              {errors.sale_target && (
                 <p className="x-small w-full text-left text-secondary_red-100 leading-[14px]">
-                  {`${errors.target.message}`}
+                  {`${errors.sale_target.message}`}
                 </p>
               )}
             </div>
@@ -370,10 +380,11 @@ export default function AdminCreateLevel() {
 
           <div className="w-full flex gap-[10px] justify-start">
             <button
+              disabled={isPending}
               type="submit"
-              className="bg-[#050210] px-[56px] py-[10px] text-text-white rounded-[6px]"
+              className="disabled:bg-[#050210]/50 bg-[#050210] px-[56px] py-[10px] text-text-white rounded-[6px]"
             >
-              Submit
+              {isPending ? "Submitting" : "Submit"}
             </button>
 
             <button
