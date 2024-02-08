@@ -62,6 +62,10 @@ export default function Login() {
               <h1 className="text-text-white">
                 Welcome back to the Redknot earners platform
               </h1>
+
+              <h1 className="text-text-white">
+                {process.env.NEXT_PUBLIC_TEST}
+              </h1>
               <p className="text-text-white leading-[24px]">
                 Sign in to access Your earnings dashboard and keep track of your
                 sales performance
