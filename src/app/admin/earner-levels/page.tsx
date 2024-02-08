@@ -4,7 +4,7 @@ import AddIcon from "@/icons/AddIcon";
 import AdminEarnerLevelsIcon from "@/icons/AdminLayout/AdminEarnerLevelsIcon";
 import SlashIcon from "@/icons/SlashIcon";
 import Link from "next/link";
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import {
   Column,
   ColumnDef,
@@ -14,7 +14,7 @@ import {
   Table,
   useReactTable,
 } from "@tanstack/react-table";
-import { TableHeader, TableRow } from "@/components/TableBody";
+import { DateRow, TableHeader, TableRow } from "@/components/TableBody";
 import SearchIcon from "@/icons/SearchIcon";
 import DropDown from "@/components/DropDown";
 import EarnerLevelOne from "../../../../public/earnerLevel1.png";
@@ -23,48 +23,80 @@ import EarnerLevelThree from "../../../../public/earnerLevel3.png";
 import Image, { StaticImageData } from "next/image";
 import EditIcon from "@/icons/EditIcon";
 import ViewIcon from "@/icons/ViewIcon";
+import { useQuery } from "@tanstack/react-query";
+import { UseGetEarnerLevels } from "@/api/api";
+
+// type EarnerLevelTableDataSchema = {
+//   dateCreated: string;
+//   levelName: string;
+//   badge: StaticImageData;
+//   totalEarners: number;
+//   target: string;
+//   commission: string;
+//   salary: string;
+//   id: string;
+// };
 
 type EarnerLevelTableDataSchema = {
-  dateCreated: string;
-  levelName: string;
-  badge: StaticImageData;
-  totalEarners: number;
-  target: string;
+  bonus: string;
   commission: string;
+  created_at: string;
+  id: number;
+  image_url: null | string;
+  is_active: number;
+  is_default: number;
+  name: string;
   salary: string;
-  id: string;
+  sale_target: string;
+  updated_at: string;
 };
+
+// const tableData: EarnerLevelTableDataSchema[] = [
+//   {
+//     id: "12ew",
+//     dateCreated: "15 Sep 2023",
+//     levelName: "Earner",
+//     badge: EarnerLevelOne,
+//     totalEarners: 30,
+//     target: "10 Products",
+//     commission: "₦15,000",
+//     salary: "₦10,000",
+//   },
+//   {
+//     id: "12ew",
+//     dateCreated: "15 Sep 2023",
+//     levelName: "Earner II",
+//     badge: EarnerLevelTwo,
+//     totalEarners: 30,
+//     target: "10 Products",
+//     commission: "₦15,000",
+//     salary: "₦15,000",
+//   },
+//   {
+//     id: "12ew",
+//     dateCreated: "15 Sep 2023",
+//     levelName: "Earner III",
+//     badge: EarnerLevelThree,
+//     totalEarners: 30,
+//     target: "10 Products",
+//     commission: "₦15,000",
+//     salary: "₦25,000",
+//   },
+// ];
 
 const tableData: EarnerLevelTableDataSchema[] = [
   {
-    id: "12ew",
-    dateCreated: "15 Sep 2023",
-    levelName: "Earner",
-    badge: EarnerLevelOne,
-    totalEarners: 30,
-    target: "10 Products",
-    commission: "₦15,000",
-    salary: "₦10,000",
-  },
-  {
-    id: "12ew",
-    dateCreated: "15 Sep 2023",
-    levelName: "Earner II",
-    badge: EarnerLevelTwo,
-    totalEarners: 30,
-    target: "10 Products",
-    commission: "₦15,000",
-    salary: "₦15,000",
-  },
-  {
-    id: "12ew",
-    dateCreated: "15 Sep 2023",
-    levelName: "Earner III",
-    badge: EarnerLevelThree,
-    totalEarners: 30,
-    target: "10 Products",
-    commission: "₦15,000",
-    salary: "₦25,000",
+    bonus: "",
+    commission: "",
+    created_at: "",
+    id: 1,
+    image_url: null,
+    is_active: 1,
+    is_default: 0,
+    name: "",
+    salary: "",
+    sale_target: "",
+    updated_at: "",
   },
 ];
 
@@ -72,37 +104,46 @@ export default function AdminEarnerLevels() {
   const [data, setData] = useState(() => [...tableData]);
   const [searchValue, setSearchValue] = useState("");
 
+  const { data: earnerLevels, isLoading } = useQuery({
+    queryFn: () => UseGetEarnerLevels(),
+    queryKey: ["getEarnerLevels"],
+  });
+
+  useEffect(() => {
+    console.log(earnerLevels);
+  }, [earnerLevels]);
+
   const columns = useMemo<ColumnDef<EarnerLevelTableDataSchema>[]>(
     () => [
       {
-        id: "dateCreated",
-        accessorKey: "dateCreated",
+        id: "created_at",
+        accessorKey: "created_at",
         header: () => <TableHeader title="Date Created" />,
         cell: (info: any) => {
-          return <TableRow title={info.getValue()} />;
+          return <DateRow date={info.getValue()} />;
         },
       },
       {
-        id: "levelName",
-        accessorKey: "levelName",
+        id: "name",
+        accessorKey: "name",
         header: () => <TableHeader title="Level Name" />,
         cell: (info: any) => <TableRow title={info.getValue()} />,
       },
       {
-        id: "badge",
-        accessorKey: "badge",
+        id: "image_url",
+        accessorKey: "image_url",
         header: () => <TableHeader title="Badge" />,
         cell: (info: any) => <ImageRow image={info.getValue()} />,
       },
+      // {
+      //   id: "totalEarners",
+      //   accessorKey: "totalEarners",
+      //   header: () => <TableHeader title="No of Earners" />,
+      //   cell: (info: any) => <TableRow title={info.getValue()} />,
+      // },
       {
-        id: "totalEarners",
-        accessorKey: "totalEarners",
-        header: () => <TableHeader title="No of Earners" />,
-        cell: (info: any) => <TableRow title={info.getValue()} />,
-      },
-      {
-        id: "target",
-        accessorKey: "target",
+        id: "sale_target",
+        accessorKey: "sale_target",
         header: () => <TableHeader title="Monthly Sales Target" />,
         cell: (info: any) => <TableRow title={info.getValue()} />,
       },
@@ -134,6 +175,10 @@ export default function AdminEarnerLevels() {
     getPaginationRowModel: getPaginationRowModel(),
     debugTable: true,
   });
+
+  useEffect(() => {
+    setData(earnerLevels?.data);
+  }, [earnerLevels]);
 
   return (
     <div className="adminWidth flex flex-col gap-[50px] p-[32px]">
@@ -238,7 +283,7 @@ function ImageRow({ image }: { image: StaticImageData }) {
     <div className="w-full flex justify-center items-center">
       <Image
         alt="Level BAdge"
-        src={image}
+        src={image ? image : EarnerLevelOne}
         width={40}
         height={40}
         className="rounded-full"

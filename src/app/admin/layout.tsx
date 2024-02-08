@@ -3,7 +3,7 @@
 import { inter } from "../fonts";
 import "../globals.css";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import CartIcon from "@/icons/CartIcon";
 import Image from "next/image";
 import ProfileAvatar from "../../../public/ProfileAvatar.png";
@@ -18,6 +18,7 @@ import AdminExpensesIcon from "@/icons/AdminLayout/AdminExpensesIcon";
 import AdminPayoutsIcon from "@/icons/AdminLayout/AdminPayoutsIcon";
 import AdminProfileIcon from "@/icons/AdminLayout/AdminProfileIcon";
 import LogoutIcon from "@/icons/LogoutIcon";
+import Cookies from "js-cookie";
 
 const navLinkData = [
   {
@@ -51,6 +52,12 @@ export default function EarnerLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  function handleLogout() {
+    Cookies.remove("redknot_admin");
+    router.push("/admin");
+  }
 
   return (
     <html lang="en">
@@ -189,7 +196,11 @@ export default function EarnerLayout({
                     </p>
                   </div>
 
-                  <button className="text-text-normal hover:text-secondary_red-100">
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="text-text-normal hover:text-secondary_red-100"
+                  >
                     <LogoutIcon />
                   </button>
                 </div>

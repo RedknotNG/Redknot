@@ -1,5 +1,6 @@
 import Check from "@/icons/Check";
 import Dot from "@/icons/Dot";
+import moment from "moment";
 
 export function TableHeader({ title }: { title: string }) {
   return (
@@ -43,5 +44,13 @@ export function StatusRow({ title }: { title: string }) {
         </div>
       ) : null}
     </div>
+  );
+}
+
+export function DateRow({ date }: { date: string }) {
+  return (
+    <p className="small leading-[20px] text-[#667085] font-normal text-center py-[30px]">
+      {moment(date).format("MMM Do, YYYY")}
+    </p>
   );
 }

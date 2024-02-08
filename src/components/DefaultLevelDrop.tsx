@@ -1,16 +1,23 @@
 import ArrowDownIcon from "@/icons/ArrowDownIcon";
 import { useState } from "react";
 
-const drop: string[] = ["Yes", "No"];
+const drop: { label: string; value: boolean }[] = [
+  { label: "Yes", value: true },
+  { label: "No", value: false },
+];
 
-export default function LevelDropDown({ cb }: { cb: (value: string) => void }) {
+export default function LevelDropDown({
+  cb,
+}: {
+  cb: (value: boolean) => void;
+}) {
   const [current, setCurrent] = useState("Yes");
   const [showDrop, setShowDrop] = useState(false);
 
-  function handleSelect(value: string) {
+  function handleSelect(data: { label: string; value: boolean }) {
     setShowDrop(false);
-    setCurrent(value);
-    cb(value);
+    setCurrent(data.label);
+    cb(data.value);
   }
   return (
     <div className="flex flex-col relative items-center">
@@ -34,7 +41,9 @@ export default function LevelDropDown({ cb }: { cb: (value: string) => void }) {
               onClick={() => handleSelect(data)}
               className="shadow p-[5px] flex justify-center items-center gap-[10px]"
             >
-              <p className="small leading-[20px] text-[#334155]">{data}</p>
+              <p className="small leading-[20px] text-[#334155]">
+                {data.label}
+              </p>
             </button>
           ))}
         </div>

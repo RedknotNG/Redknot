@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { inter } from "./fonts";
 import "./globals.css";
+import { ReactQueryProvider } from "./ReactQueryProvider";
 
 export const metadata: Metadata = {
   title: "RedKnot",
@@ -14,7 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable}`}>{children}</body>
+      <body className={`${inter.variable}`}>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </body>
     </html>
   );
 }
