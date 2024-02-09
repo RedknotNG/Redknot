@@ -1,6 +1,8 @@
 import Check from "@/icons/Check";
 import Dot from "@/icons/Dot";
 import moment from "moment";
+import Image, { StaticImageData } from "next/image";
+import bs1 from "../../public/bs1.png";
 
 export function TableHeader({ title }: { title: string }) {
   return (
@@ -52,5 +54,47 @@ export function DateRow({ date }: { date: string }) {
     <p className="small leading-[20px] text-[#667085] font-normal text-center py-[30px]">
       {moment(date).format("MMM Do, YYYY")}
     </p>
+  );
+}
+
+export function ProductTitleRow({
+  name,
+}: {
+  name: { title: string; image: StaticImageData };
+}) {
+  return (
+    <div className="flex justify-center items-center gap-[10px]">
+      <Image
+        alt="Level BAdge"
+        src={name.image ? name.image : bs1}
+        width={40}
+        height={40}
+        className="rounded-full"
+      />
+      <p className="small leading-[20px] text-[#101828] font-medium text-center py-[30px]">
+        {name.title}
+      </p>
+    </div>
+  );
+}
+
+export function ProductStatusRow({ title }: { title: string }) {
+  return (
+    <div className="w-full flex justify-center items-center py-[30px]">
+      {title === "Active" ? (
+        <div className="w-fit green-shadow bg-[#ECFDF3] flex gap-[6px] items-center justify-center px-[8px] py-[3px] text-[#027A48] rounded-[4px]">
+          <Dot />
+          <p className={`x-small text-[#027A48] font-medium leading-[18px]`}>
+            {title}
+          </p>
+        </div>
+      ) : title === "Inactive" ? (
+        <div className="w-fit red-shadow bg-[#FEF3F2] flex gap-[6px] items-center justify-center px-[8px] py-[3px] text-[#B42318] rounded-[4px]">
+          <p className={`x-small text-[#B42318] font-medium leading-[18px]`}>
+            {title}
+          </p>
+        </div>
+      ) : null}
+    </div>
   );
 }
