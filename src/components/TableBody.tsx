@@ -63,17 +63,19 @@ export function ProductTitleRow({
   name: { title: string; image: StaticImageData };
 }) {
   return (
-    <div className="flex justify-center items-center gap-[10px]">
-      <Image
-        alt="Level BAdge"
-        src={name.image ? name.image : bs1}
-        width={40}
-        height={40}
-        className="rounded-full"
-      />
-      <p className="small leading-[20px] text-[#101828] font-medium text-center py-[30px]">
-        {name.title}
-      </p>
+    <div className="w-full flex justify-center items-center pl-[20px]">
+      <div className="w-full flex justify-start items-center gap-[10px]">
+        <Image
+          alt="Level Badge"
+          src={name.image ? name.image : bs1}
+          width={40}
+          height={40}
+          className="rounded-full"
+        />
+        <p className="small leading-[20px] text-[#101828] font-medium text-center py-[30px]">
+          {name.title}
+        </p>
+      </div>
     </div>
   );
 }

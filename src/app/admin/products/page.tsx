@@ -55,7 +55,7 @@ export default function AdminProducts() {
         </div>
 
         <Link
-          href={"/admin/earner-levels/create-level"}
+          href={"/admin/products/create-product"}
           className="bg-[#050210] px-[16px] py-[10px] flex gap-[5px] text-text-white rounded-[6px]"
         >
           <p className="small font-semibold leading-[20px] text-text-white">

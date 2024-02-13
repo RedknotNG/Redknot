@@ -199,6 +199,29 @@ export default function AdminAllProducts() {
           })}
         </tbody>
       </table>
+
+      <div className="w-full flex justify-between items-center px-[24px] py-[20px]">
+        <p className="small font-medium leading-[20px] text-[#334155]">
+          Page 1 of 10
+        </p>
+
+        <div className="flex gap-[10px] items-center ">
+          <button
+            type="button"
+            onClick={() => console.log("previous")}
+            className="shadow bg-background-white px-[14px] py-[8px] text-[14px] font-medium leading-[20px] text-text-muted rounded-[6px]"
+          >
+            Previous
+          </button>
+          <button
+            type="button"
+            onClick={() => console.log("next")}
+            className="shadow bg-background-white px-[14px] py-[8px] text-[14px] font-medium leading-[20px] text-text-muted rounded-[6px]"
+          >
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

@@ -109,10 +109,6 @@ export default function AdminEarnerLevels() {
     queryKey: ["getEarnerLevels"],
   });
 
-  useEffect(() => {
-    console.log(earnerLevels);
-  }, [earnerLevels]);
-
   const columns = useMemo<ColumnDef<EarnerLevelTableDataSchema>[]>(
     () => [
       {
