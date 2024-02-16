@@ -26,6 +26,7 @@ import ViewIcon from "@/icons/ViewIcon";
 import { useQuery } from "@tanstack/react-query";
 import { UseGetEarnerLevels } from "@/api/api";
 import ImageIcon from "@/icons/ImageIcon";
+import Link from "next/link";
 
 type ProductsTableDataSchema = {
   name: { title: string; image: StaticImageData };
@@ -232,9 +233,9 @@ function TableAction({ id }: { id: string }) {
       <button className="text-text-normal">
         <EditIcon />
       </button>
-      <button className="text-text-normal">
+      <Link href={`/admin/products/${id}`} className="text-text-normal">
         <ViewIcon />
-      </button>
+      </Link>
       <button className="text-text-normal">
         <ImageIcon />
       </button>

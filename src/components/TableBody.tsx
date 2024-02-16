@@ -3,6 +3,7 @@ import Dot from "@/icons/Dot";
 import moment from "moment";
 import Image, { StaticImageData } from "next/image";
 import bs1 from "../../public/bs1.png";
+import clsx from "clsx";
 
 export function TableHeader({ title }: { title: string }) {
   return (
@@ -97,6 +98,33 @@ export function ProductStatusRow({ title }: { title: string }) {
           </p>
         </div>
       ) : null}
+    </div>
+  );
+}
+
+export function EachProductTitleRow({
+  color,
+}: {
+  color: { color: string; quantity: number; code: string };
+}) {
+  return (
+    <div className="w-full flex justify-center items-center pl-[20px]">
+      <div className="w-full flex justify-start items-center gap-[10px]">
+        <div
+          className={clsx(`h-[40px] w-[40px] rounded-full bg-[${color.code}]`)}
+          style={{
+            backgroundColor: color.code,
+          }}
+        ></div>
+        <div className="flex flex-col items-start gap-0 py-[30px]">
+          <p className="small leading-[20px] text-[#101828] font-medium text-center">
+            {color.color}
+          </p>
+          <p className="small leading-[20px] text-[#667085] font-normal text-center">
+            {color.quantity}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

@@ -94,11 +94,6 @@ export default function AdminCreateProduct() {
       })
     );
   }
-  //remove
-  useEffect(() => {
-    console.log(variationData);
-  }, [variationData]);
-  //remove
 
   function handleVariationCancel(id: string) {
     setVariationActive(false);

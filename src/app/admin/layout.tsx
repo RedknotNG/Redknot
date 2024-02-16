@@ -63,8 +63,8 @@ export default function EarnerLayout({
     <html lang="en">
       {pathname !== "/admin" ? (
         <body className={`${inter.variable}`}>
-          <section className="w-full flex">
-            <div className="h-screen w-[272px] flex flex-col justify-between bg-background-disabled px-[16px] py-[24px]">
+          <section className="w-full relative">
+            <div className="h-screen fixed left-0 top-0 w-[272px] flex flex-col justify-between bg-background-disabled px-[16px] py-[24px]">
               <div className="flex flex-col gap-[20px]">
                 <Link href={"/admin/dashboard"} className="text-text-loud">
                   <RedKnotSmallIcon />
@@ -207,7 +207,9 @@ export default function EarnerLayout({
               </div>
             </div>
 
-            <section className="w-full">{children}</section>
+            <section className="adminWidth absolute top-0 left-[272px]">
+              {children}
+            </section>
           </section>
         </body>
       ) : (
