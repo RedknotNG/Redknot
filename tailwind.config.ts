@@ -22,6 +22,7 @@ const config: Config = {
           100: "#5E56FF",
           200: "#312BA0",
           300: "#201C6C",
+          700: "#6941C6",
         },
         secondary_red: {
           0: "#FEEFF2",
