@@ -27,8 +27,8 @@ export default function EarnerLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable}`}>
-        <section className="w-full flex flex-col items-center">
-          <div className="w-full flex justify-center bg-background-loud">
+        <section className="w-full flex flex-col items-center relative">
+          <div className="w-full flex justify-center bg-background-loud fixed z-50">
             <div className="w-[1280px] px-[32px] py-[24px] flex justify-between">
               <Link href={"/earner/dashboard"} className="text-text-white">
                 <RedKnotSmallIcon />
@@ -51,12 +51,15 @@ export default function EarnerLayout({
               </div>
 
               <div className="flex gap-[16px] items-center">
-                <div className="flex gap-[5px] items-center">
+                <Link
+                  href={"/earner/carts"}
+                  className="flex gap-[5px] items-center"
+                >
                   <CartIcon />{" "}
                   <p className="text-[18px] font-medium leading-[28px] text-text-disabled">
                     (2)
                   </p>
-                </div>
+                </Link>
 
                 <Image
                   alt="Profile Img"
@@ -69,7 +72,7 @@ export default function EarnerLayout({
             </div>
           </div>
 
-          <section className="w-full">{children}</section>
+          <section className="w-full absolute top-[88px]">{children}</section>
         </section>
       </body>
     </html>

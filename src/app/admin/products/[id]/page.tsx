@@ -31,6 +31,7 @@ import Link from "next/link";
 import AdminProductsIcon from "@/icons/AdminLayout/AdminProductsIcon";
 import SlashIcon from "@/icons/SlashIcon";
 import AddIcon from "@/icons/AddIcon";
+import { useParams } from "next/navigation";
 
 type EachProductTableDataSchema = {
   color: { color: string; quantity: number; code: string };
@@ -67,6 +68,9 @@ const tableData: EachProductTableDataSchema[] = [
 export default function AdminEachProducts() {
   const [data, setData] = useState(() => [...tableData]);
   const [searchValue, setSearchValue] = useState("");
+
+  const params = useParams();
+  const { id } = params;
 
   // const { data: earnerLevels, isLoading } = useQuery({
   //   queryFn: () => UseGetEarnerLevels(),
@@ -150,7 +154,7 @@ export default function AdminEachProducts() {
         </div>
 
         <Link
-          href={"/admin/products/create-product"}
+          href={`/admin/products/${id as string}/create-variation`}
           className="bg-[#050210] px-[16px] py-[10px] flex gap-[5px] text-text-white rounded-[6px]"
         >
           <p className="small font-semibold leading-[20px] text-text-white">
