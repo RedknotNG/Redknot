@@ -36,6 +36,7 @@ h2 {
   font-size: 36px;
   font-weight: 500;
   font-family: var(--font-inter);
+  line-height: 44px;
 }
 
 h3 {
@@ -54,18 +55,21 @@ h5 {
   font-size: 20px;
   font-weight: 500;
   font-family: var(--font-inter);
+  line-height: 30px;
 }
 
 h6 {
   font-size: 18px;
   font-weight: 500;
   font-family: var(--font-inter);
+  line-height: 28px;
 }
 
 p {
   font-size: 16px;
   font-weight: 400;
   font-family: var(--font-inter);
+  line-height: 24px;
 }
 
 p.large {
@@ -78,6 +82,7 @@ p.small {
   font-size: 14px;
   font-weight: 400;
   font-family: var(--font-inter);
+  line-height: 20px;
 }
 
 p.x-small {
@@ -115,4 +120,39 @@ p.x-small {
 
 .adminWidth {
   width: calc(100vw - 272px);
+}
+
+.focus-bg {
+  background: rgba(1, 5, 12, 0.72);
+  height: calc(100vh - 88px);
+}
+
+.focus-bg-full {
+  display: flex;
+  /* width: 100vw; */
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  background: rgba(52, 64, 84, 0.7);
+  backdrop-filter: blur(8px);
+}
+
+.form-button {
+  border-radius: 6px;
+  border: 1px solid var(--Form-Button-Stroke, #fff);
+  background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    #5f57ff;
+  box-shadow: 0px 0px 0px 1px #4f47eb, 0px 1px 2px 0px rgba(26, 19, 161, 0.5);
+}
+
+.button-secondary-normal {
+  border-radius: 6px;
+  box-shadow: 0px 0px 0px 1px rgba(18, 55, 105, 0.08),
+    0px 1px 2px 0px rgba(164, 172, 185, 0.24);
 }

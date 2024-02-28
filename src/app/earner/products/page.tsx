@@ -6,6 +6,7 @@ import SortIcon from "@/icons/SortIcon";
 import Image, { StaticImageData } from "next/image";
 import { useState } from "react";
 import productImage from "../../../../public/productImage.png";
+import Link from "next/link";
 
 type ProductsSchema = {
   img: StaticImageData;
@@ -13,6 +14,7 @@ type ProductsSchema = {
   position: string;
   available: number;
   price: string;
+  id: string;
 };
 
 const productsData: ProductsSchema[] = [
@@ -22,6 +24,7 @@ const productsData: ProductsSchema[] = [
     position: "Top",
     available: 50,
     price: "₦13,500",
+    id: "123wqer",
   },
   {
     img: productImage,
@@ -29,6 +32,7 @@ const productsData: ProductsSchema[] = [
     position: "Top",
     available: 50,
     price: "₦13,500",
+    id: "13wqer",
   },
   {
     img: productImage,
@@ -36,6 +40,7 @@ const productsData: ProductsSchema[] = [
     position: "Top",
     available: 50,
     price: "₦13,500",
+    id: "123wqe",
   },
   {
     img: productImage,
@@ -43,6 +48,7 @@ const productsData: ProductsSchema[] = [
     position: "Top",
     available: 50,
     price: "₦13,500",
+    id: "123wer",
   },
   {
     img: productImage,
@@ -50,6 +56,7 @@ const productsData: ProductsSchema[] = [
     position: "Top",
     available: 50,
     price: "₦13,500",
+    id: "13wqer",
   },
   {
     img: productImage,
@@ -57,6 +64,7 @@ const productsData: ProductsSchema[] = [
     position: "Top",
     available: 50,
     price: "₦13,500",
+    id: "1wqer",
   },
   {
     img: productImage,
@@ -64,6 +72,7 @@ const productsData: ProductsSchema[] = [
     position: "Top",
     available: 50,
     price: "₦13,500",
+    id: "23wqe",
   },
   {
     img: productImage,
@@ -71,6 +80,7 @@ const productsData: ProductsSchema[] = [
     position: "Top",
     available: 50,
     price: "₦13,500",
+    id: "12er",
   },
 ];
 
@@ -81,7 +91,7 @@ export default function ProductPage() {
   }
   return (
     <div className="w-full flex justify-center relative">
-      <div className="w-[1280px] p-[32px] flex flex-col gap-[32px]">
+      <div className="w-full max-w-[1280px] p-[32px] flex flex-col gap-[32px]">
         <p className="text-[30px] font-semibold leading-[38px] text-text-loud">
           Products
         </p>
@@ -137,7 +147,10 @@ export default function ProductPage() {
 
 function ProductCard({ data }: { data: ProductsSchema }) {
   return (
-    <div className="flex flex-col gap-[5px]">
+    <Link
+      href={`/earner/products/${data.id}`}
+      className="flex flex-col gap-[5px]"
+    >
       <Image
         alt="Best Selling Img"
         src={data.img}
@@ -157,6 +170,6 @@ function ProductCard({ data }: { data: ProductsSchema }) {
       </p>
 
       <p className="font-medium leading-[24px] text-text-muted">{data.price}</p>
-    </div>
+    </Link>
   );
 }
