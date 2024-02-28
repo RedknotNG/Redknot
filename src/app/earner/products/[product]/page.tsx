@@ -165,7 +165,7 @@ export default function EachProduct() {
       </div>
 
       {showSave && (
-        <div className="focusBg w-screen h-screen absolute top-0 flex justify-center">
+        <div className="focus-bg w-screen h-screen absolute top-0 flex justify-center">
           <div className="w-full max-w-[1280px] px-[32px] flex justify-end">
             <div className="h-fit w-[482px] bg-background-white py-[16px] px-[18px] flex flex-col gap-[16px]">
               <div className="flex justify-between items-center">
