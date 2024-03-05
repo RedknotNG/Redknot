@@ -5,8 +5,9 @@ import SearchIcon from "@/icons/SearchIcon";
 import SortIcon from "@/icons/SortIcon";
 import Image, { StaticImageData } from "next/image";
 import { useState } from "react";
-import productImage from "../../../../public/productImage.png";
+import productImage from "../../../../../public/productImage.png";
 import Link from "next/link";
+import SlashIcon from "@/icons/SlashIcon";
 
 type ProductsSchema = {
   img: StaticImageData;
@@ -84,18 +85,35 @@ const productsData: ProductsSchema[] = [
   },
 ];
 
-export default function ProductPage() {
+export default function ProductCategoryPage() {
   const [searchValue, setSearchValue] = useState("");
   function dropCB(value: string) {
     console.log(value);
   }
   return (
-    <div className="w-full flex justify-center relative">
-      <div className="w-full max-w-[1280px] p-[32px] flex flex-col gap-[32px]">
-        <p className="text-[30px] font-semibold leading-[38px] text-text-loud">
-          Products
-        </p>
+    <div className="w-full flex flex-col items-center relative">
+      <div className="w-full bg-background-disabled flex justify-center border-b-[1px]">
+        <div className="w-full max-w-[1280px] flex flex-col items-start gap-[24px] py-[24px] px-[32px]">
+          <div className="w-full flex items-center gap-[12px]">
+            <Link href={"/earner/product-categories"}>
+              <p className="small text-text-normal font-medium">
+                Product categories
+              </p>
+            </Link>
 
+            <div className="text-text-disabled">
+              <SlashIcon />
+            </div>
+
+            <p className="small text-text-loud font-medium">Tops</p>
+          </div>
+          <p className="text-[30px] font-semibold leading-[38px] text-text-loud">
+            Tops
+          </p>
+        </div>
+      </div>
+
+      <div className="w-full max-w-[1280px] p-[32px] flex flex-col gap-[32px]">
         <div className="flex justify-between items-center">
           <div className="flex gap-[16px]">
             <div className="shadow flex gap-[6px] px-[16px] py-[10px] rounded-[6px]">

@@ -11,13 +11,10 @@ export default function EachOrder() {
   const orderId = searchParams.get("orderId");
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="w-full bg-white flex justify-center">
+      <div className="w-full bg-white flex justify-center border-b-[1px]">
         <div className="w-full max-w-[1280px] flex items-center gap-[12px] py-[24px] px-[32px]">
-          <Link
-            href={"/earner/orders"}
-            className="small text-text-normal font-medium"
-          >
-            Orders
+          <Link href={"/earner/orders"}>
+            <p className="small text-text-normal font-medium">Orders</p>
           </Link>
 
           <div className="text-text-disabled">
@@ -27,6 +24,7 @@ export default function EachOrder() {
           <p className="small text-text-loud font-medium">{orderId}</p>
         </div>
       </div>
+
       <div className="w-full bg-background-disabled flex justify-center py-[32px]">
         <div className="w-full  max-w-[1280px] px-[32px] flex flex-col gap-[24px]">
           <div className="order-card-container w-full px-[24px] py-[16px] flex flex-col gap-[24px]">
