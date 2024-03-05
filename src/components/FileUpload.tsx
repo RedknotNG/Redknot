@@ -4,7 +4,13 @@ import { useState, type ChangeEvent, type DragEvent, useRef } from "react";
 import UploadIcon from "@/icons/UploadIcon";
 import clsx from "clsx";
 
-export default function FileUpload({ cb }: { cb: (imageUrl: string) => void }) {
+export default function FileUpload({
+  cb,
+  actionWord,
+}: {
+  cb: (imageUrl: string) => void;
+  actionWord: string;
+}) {
   const [dragActive, setDragActive] = useState<boolean>(false);
   const uploadImageRef = useRef<HTMLInputElement | null>(null);
 
@@ -121,7 +127,7 @@ export default function FileUpload({ cb }: { cb: (imageUrl: string) => void }) {
             <div className="flex gap-[5px]">
               <button type="button" onClick={addImage} className="z-20">
                 <p className="small text-primary-100 font-semibold leading-[20px]">
-                  Click here to upload image
+                  {actionWord}
                 </p>
               </button>
               <p className="small text-text-normal leading-[20px]">

@@ -2,6 +2,7 @@ import Image from "next/image";
 import bs1 from "../../../../public/bs1.png";
 import MinusIcon from "@/icons/MinusIcon";
 import AddIcon from "@/icons/AddIcon";
+import Link from "next/link";
 
 export default function CartsPage() {
   return (
@@ -104,9 +105,12 @@ export default function CartsPage() {
             <h6 className="text-text-muted font-medium">₦22,000</h6>
           </div>
 
-          <button className="w-full form-button py-[12px]">
+          <Link
+            href={`/earner/carts/checkout`}
+            className="w-full form-button py-[12px]"
+          >
             <p className="text-text-white font-semibold">Checkout</p>
-          </button>
+          </Link>
         </div>
       </div>
     </div>

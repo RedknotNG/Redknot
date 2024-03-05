@@ -49,6 +49,7 @@ h4 {
   font-size: 24px;
   font-weight: 500;
   font-family: var(--font-inter);
+  line-height: 32px;
 }
 
 h5 {
@@ -118,6 +119,10 @@ p.x-small {
   box-shadow: 0px 0px 0px 0.6px rgba(200, 28, 28, 0.24);
 }
 
+.purple-shadow {
+  box-shadow: 0px 0px 0px 0.6px #dae5fb;
+}
+
 .adminWidth {
   width: calc(100vw - 272px);
 }
@@ -140,8 +145,11 @@ p.x-small {
 }
 
 .form-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 6px;
-  border: 1px solid var(--Form-Button-Stroke, #fff);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   background: linear-gradient(
       180deg,
       rgba(255, 255, 255, 0.12) 0%,
@@ -155,4 +163,55 @@ p.x-small {
   border-radius: 6px;
   box-shadow: 0px 0px 0px 1px rgba(18, 55, 105, 0.08),
     0px 1px 2px 0px rgba(164, 172, 185, 0.24);
+}
+
+/* The container */
+.payment-radio-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding-left: 25px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.payment-radio-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: #ffffff;
+  border: #666d80 1px solid;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.payment-radio-container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.payment-radio-container input:checked ~ .checkmark {
+  border: #5f57ff 6px solid;
+}
+
+.order-card-container {
+  border-radius: 8px;
+  border-left: 4px solid #eceff3;
+  background: #fff;
+  box-shadow: 0px 0px 0px 1px #eceff3, 0px 2px 8px 0px rgba(230, 232, 242, 0.3),
+    0px 1px 6px 0px rgba(230, 232, 242, 0.06);
 }

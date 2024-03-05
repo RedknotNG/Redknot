@@ -24,17 +24,24 @@ export function TableRow({ title }: { title: string }) {
 export function StatusRow({ title }: { title: string }) {
   return (
     <div className="w-full flex justify-center items-center py-[30px]">
-      {title === "Delivered" || title === "Paid" ? (
+      {title === "Delivered" || title === "Paid" || title === "Picked up" ? (
         <div className="w-fit green-shadow bg-[#ECFDF3] flex gap-[6px] items-center justify-center px-[8px] py-[3px] text-[#027A48] rounded-[4px]">
           <Check />
           <p className={`x-small text-[#027A48] font-medium leading-[18px]`}>
             {title}
           </p>
         </div>
-      ) : title === "Packed" ? (
+      ) : title === "Packed" || title === "Pending" ? (
         <div className="w-fit icon-shadow bg-[#F9FAFB] flex gap-[6px] items-center justify-center px-[8px] py-[3px] text-[#344054] rounded-[4px]">
           <Dot />
           <p className={`x-small text-[#344054] font-medium leading-[18px]`}>
+            {title}
+          </p>
+        </div>
+      ) : title === "Completed" ? (
+        <div className="w-fit purple-shadow bg-[#F9F5FF] flex gap-[6px] items-center justify-center px-[8px] py-[3px] text-primary-700 rounded-[4px]">
+          <Check />
+          <p className={`x-small text-primary-700 font-medium leading-[18px]`}>
             {title}
           </p>
         </div>

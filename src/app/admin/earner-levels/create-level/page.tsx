@@ -249,7 +249,10 @@ export default function AdminCreateLevel() {
             </p>
 
             <div className="w-full">
-              <FileUpload cb={uploadCB} />
+              <FileUpload
+                cb={uploadCB}
+                actionWord="Click here to upload image"
+              />
             </div>
           </div>
 

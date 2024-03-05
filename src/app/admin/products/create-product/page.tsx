@@ -256,7 +256,7 @@ export default function AdminCreateProduct() {
         </div>
 
         <div className="w-full">
-          <FileUpload cb={uploadCB} />
+          <FileUpload cb={uploadCB} actionWord="Click here to upload image" />
         </div>
 
         <div className="w-full max-w-[740px] p-[16px] flex flex-col gap-[12px] bg-background-disabled">
@@ -437,7 +437,7 @@ function AddVariation({
           </div>
 
           <div className="w-full">
-            <FileUpload cb={uploadCB} />
+            <FileUpload cb={uploadCB} actionWord="Click here to upload image" />
           </div>
 
           <div className="w-full flex gap-[10px] justify-start">
