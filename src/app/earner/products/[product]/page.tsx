@@ -31,26 +31,19 @@ export default function EachProduct() {
     setShowSave(false);
   }
 
-  function handleCheckout() {
-    setShowSave(false);
-    console.log("check");
-  }
   return (
     <div className="w-full flex flex-col items-center relative">
       <div className="w-full bg-background-disabled flex justify-center mb-[32px]">
-        <div className="w-full max-w-[1280px] flex gap-[12px] py-[24px] px-[32px]">
-          <Link
-            href={"/earner/products"}
-            className="small text-text-normal font-medium leading-[20px]"
-          >
-            Products
+        <div className="w-full max-w-[1280px] flex items-center gap-[12px] py-[24px] px-[32px]">
+          <Link href={"/earner/products"}>
+            <p className="small text-text-normal font-medium">Products</p>
           </Link>
 
           <div className="text-text-disabled">
             <SlashIcon />
           </div>
 
-          <p className="small text-text-loud font-medium leading-[20px]">
+          <p className="small text-text-loud font-medium">
             Nini - Adire Agbada dress
           </p>
         </div>
@@ -205,19 +198,19 @@ export default function EachProduct() {
               </div>
 
               <div className="grid grid-cols-2 gap-[12px]">
-                <button
-                  onClick={() => router.push("/earner/carts")}
+                <Link
+                  href={"/earner/carts"}
                   className="shadow py-[8px] bg-background-white flex justify-center items-center rounded-[6px]"
                 >
                   <p className="small text-text-muted font-medium">View Cart</p>
-                </button>
+                </Link>
 
-                <button
-                  onClick={handleCheckout}
+                <Link
+                  href={"/earner/carts/checkout"}
                   className="shadow py-[8px] bg-primary-100 flex justify-center items-center rounded-[6px]"
                 >
                   <p className="small text-text-white font-medium">Checkout</p>
-                </button>
+                </Link>
               </div>
             </div>
           </div>

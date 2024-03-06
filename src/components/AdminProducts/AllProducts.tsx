@@ -202,9 +202,7 @@ export default function AdminAllProducts() {
       </table>
 
       <div className="w-full flex justify-between items-center px-[24px] py-[20px]">
-        <p className="small font-medium leading-[20px] text-[#334155]">
-          Page 1 of 10
-        </p>
+        <p className="small font-medium text-[#334155]">Page 1 of 10</p>
 
         <div className="flex gap-[10px] items-center ">
           <button
