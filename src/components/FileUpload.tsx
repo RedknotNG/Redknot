@@ -126,7 +126,7 @@ export default function FileUpload({
           <div className="flex flex-col gap-[5px]">
             <div className="flex gap-[5px]">
               <button type="button" onClick={addImage} className="z-20">
-                <p className="small text-primary-100 font-semibold leading-[20px]">
+                <p className="small text-primary-100 !font-semibold">
                   {actionWord}
                 </p>
               </button>

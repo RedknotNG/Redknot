@@ -57,6 +57,10 @@ const config: Config = {
           pressed: "#C1C7CF",
         },
       },
+
+      fontFamily: {
+        inter: ["var(--font-inter)"],
+      },
     },
   },
   plugins: [],

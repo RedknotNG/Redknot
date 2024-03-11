@@ -177,7 +177,7 @@ export default function AdminEarnerLevels() {
   }, [earnerLevels]);
 
   return (
-    <div className="adminWidth flex flex-col gap-[50px] p-[32px]">
+    <div className="adminWidth flex flex-col gap-[32px] p-[32px]">
       <div className="w-full flex justify-between items-center">
         <div className="flex gap-[12px]">
           <div className="text-text-normal">
@@ -187,9 +187,7 @@ export default function AdminEarnerLevels() {
             <SlashIcon />
           </div>
 
-          <p className="small text-primary-100 font-medium leading-[20px]">
-            Earner levels
-          </p>
+          <p className="small text-primary-100 !font-medium">Earner levels</p>
         </div>
 
         <Link
@@ -197,13 +195,13 @@ export default function AdminEarnerLevels() {
           className="bg-[#050210] px-[16px] py-[10px] flex gap-[5px] text-text-white rounded-[6px]"
         >
           <AddIcon />
-          <p className="small font-semibold leading-[20px] text-text-white">
+          <p className="small !font-semibold text-text-white">
             Create earner level
           </p>
         </Link>
       </div>
 
-      <h3 className="font-semibold text-text-loud leading-[40px]">
+      <h3 className="!font-semibold text-text-loud leading-[40px]">
         Earner levels
       </h3>
 

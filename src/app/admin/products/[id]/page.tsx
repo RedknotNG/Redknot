@@ -145,7 +145,7 @@ export default function AdminEachProducts() {
 
   return (
     <div>
-      <div className="adminWidth flex flex-col gap-[50px] p-[32px]">
+      <div className="adminWidth flex flex-col gap-[32px] p-[32px]">
         <div className="w-full flex justify-between items-center">
           <div className="flex gap-[12px]">
             <div className="text-text-normal">
@@ -166,7 +166,7 @@ export default function AdminEachProducts() {
               <SlashIcon />
             </div>
 
-            <p className="small text-primary-100 font-medium leading-[20px]">
+            <p className="small text-primary-100 !font-medium">
               Nini - Adire Agbada dress
             </p>
           </div>
@@ -175,13 +175,13 @@ export default function AdminEachProducts() {
             href={`/admin/products/${id as string}/create-variation`}
             className="bg-[#050210] px-[16px] py-[10px] flex gap-[5px] text-text-white rounded-[6px]"
           >
-            <p className="small font-semibold leading-[20px] text-text-white">
+            <p className="small !font-semibold text-text-white">
               Create variation
             </p>
           </Link>
         </div>
 
-        <h3 className="font-semibold text-text-loud leading-[40px]">
+        <h3 className="!font-semibold text-text-loud leading-[40px]">
           Nini - Adire Agbada dress
         </h3>
         <div className="shadow w-full rounded-[12px] flex flex-col">
@@ -248,9 +248,7 @@ export default function AdminEachProducts() {
           </table>
 
           <div className="w-full flex justify-between items-center px-[24px] py-[20px]">
-            <p className="small font-medium leading-[20px] text-[#334155]">
-              Page 1 of 10
-            </p>
+            <p className="small !font-medium text-[#334155]">Page 1 of 10</p>
 
             <div className="flex gap-[10px] items-center ">
               <button
@@ -301,7 +299,7 @@ export default function AdminEachProducts() {
               <div className="w-full flex flex-col gap-[10px]">
                 <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] py-[10px] bg-background-white">
                   <label htmlFor="">
-                    <p className="small text-[#36394A] px-[14px] font-medium">
+                    <p className="small text-[#36394A] px-[14px] !font-medium">
                       Quantity
                     </p>
                   </label>
