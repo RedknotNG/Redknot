@@ -4,11 +4,6 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import SlashIcon from "@/icons/SlashIcon";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { useCreateLevel } from "@/api/api";
 import AdminProductsIcon from "@/icons/AdminLayout/AdminProductsIcon";
 import BoolDropDown from "@/components/DefaultBoolDrop";
 import { BoolDropdownSchema, ProductVariationSchema } from "@/lib/AdminTypes";
@@ -17,51 +12,28 @@ import AddIcon from "@/icons/AddIcon";
 import StringDropDown from "@/components/StringDropDown";
 import FileUpload from "@/components/FileUpload";
 import Image from "next/image";
-import bs1 from "../../../../../public/bs1.png";
+import bs1 from "../../../../../../public/bs1.png";
 import Dot from "@/icons/Dot";
+import AdminOrdersIcon from "@/icons/AdminLayout/AdminOrdersIcon";
+import { useForm } from "react-hook-form";
 
-const productSchema = z.object({
-  name: z.string().min(1, "Level Name is required"),
-  price: z.number({
-    required_error: "Base Salary is required",
-    invalid_type_error: "Base Salary must be a number",
-  }),
-  commission: z.number({
-    required_error: "Commission is required",
-    invalid_type_error: "Commission must be a number",
-  }),
-});
-
-export type TProductSchema = z.infer<typeof productSchema>;
-
-export default function AdminCreateProduct() {
+export default function AdminCreateEarnerOrder() {
   const [level, setLevel] = useState(true);
   const [addVariationError, setAddVariationError] = useState(false);
   const [variationData, setVariationData] = useState<ProductVariationSchema[]>(
     []
   );
   const [variationActive, setVariationActive] = useState(false);
+  const [buyerType, setBuyerType] = useState("Earner");
+  const [selectUser, setSelectUser] = useState("Tunde Fesojaiye");
+  const [deliveryMode, setDeliveryMode] = useState("Pickup");
+  const [paymentInfo, setPaymentInfo] = useState("Paid");
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [phone, setPhone] = useState("");
+  const [deliveryFee, setDeliveryFee] = useState("");
 
   const router = useRouter();
   const countRef = useRef(0);
-
-  //   const { mutate: createLevel, isPending } = useCreateLevel(createProductCB);
-
-  //   function createProductCB() {
-  //     router.push("/admin/earner-levels");
-  //   }
-
-  function uploadCB(imageURL: string) {
-    console.log(imageURL);
-  }
-
-  function categoryDropCB(value: string) {
-    console.log(value);
-  }
-
-  function dropDownCB(value: boolean) {
-    setLevel(value);
-  }
 
   function handleAddNewVariation() {
     if (variationActive) {
@@ -100,173 +72,134 @@ export default function AdminCreateProduct() {
     setVariationData((prev) => prev.filter((data) => data.id !== id));
   }
 
-  const dropData: BoolDropdownSchema[] = [
-    { label: "Active", value: true },
-    { label: "Inactive", value: false },
-  ];
+  function buyerTypeDropDownCB(value: string) {
+    setBuyerType(value);
+  }
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<TProductSchema>({
-    resolver: zodResolver(productSchema),
-  });
+  function selectUserDropDownCB(value: string) {
+    setSelectUser(value);
+  }
 
-  function onSubmit(data: TProductSchema) {
+  function deliveryModeDropDownCB(value: string) {
+    setDeliveryMode(value);
+  }
+
+  function paymentInfoDropDownCB(value: string) {
+    setDeliveryMode(value);
+  }
+
+  function onSubmit() {
     const payload = {
-      ...data,
-      is_default: level,
+      buyerType,
     };
     console.log(payload);
     // createLevel(payload);
   }
+
+  const buyerTypeDropData: string[] = ["Customer", "Earner"];
+
+  const selectUserDropData: string[] = [
+    "Tunde Fesojaiye",
+    "Mubarak Olabisi",
+    "Samuel Ogunleti",
+    "Abdulhakeem Olanrewaju",
+    "Gbadebo Soroye",
+    "Phillip Obasi",
+  ];
+
+  const deliveryModeDropData: string[] = ["Pickup", "Delivery"];
+
+  const paymentInfoDropData: string[] = ["Paid", "Unpaid"];
+
   return (
     <div className="adminWidth flex flex-col gap-[32px] p-[32px]">
       <div className="w-full flex justify-between items-center">
         <div className="flex gap-[12px]">
           <div className="text-text-normal">
-            <AdminProductsIcon />
+            <AdminOrdersIcon />
           </div>
           <div className="text-text-disabled">
             <SlashIcon />
           </div>
 
           <Link
-            href={"/admin/products"}
+            href={"/admin/orders/earner-orders"}
             className="small text-text-normal font-medium leading-[20px]"
           >
-            All products
+            Earner orders
           </Link>
 
           <div className="text-text-disabled">
             <SlashIcon />
           </div>
 
-          <p className="small text-primary-100 !font-medium">Create product</p>
+          <p className="small text-primary-100 !font-medium">Create order</p>
         </div>
       </div>
 
       <div className="flex flex-col gap-[3px]">
         <h3 className="!font-semibold text-text-loud leading-[40px]">
-          Create product
+          Create order
         </h3>
         <p className="text-text-normal leading-[24px]">
-          Add a product so users can have access to stock
+          Rorem ipsum dolor sit amet, consectetur adipiscing elit.
         </p>
       </div>
 
       <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full flex flex-col gap-[16px] items-start"
+        onSubmit={onSubmit}
+        className="w-full flex flex-col gap-[32px] items-start"
       >
-        <div className="w-full max-w-[740px] grid grid-cols-2 gap-[24px]">
-          <div className="w-full flex flex-col gap-[10px]">
-            <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
-              <label htmlFor="">
-                <p className="small text-text-muted">Product name*</p>
-              </label>
-              <input
-                {...register("name")}
-                type="text"
-                placeholder="Enter product name"
-                className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
-              />
+        <div className="shadow w-full flex flex-col gap-[16px] p-[24px] bg-background-disabled rounded-[8px]">
+          <h5 className="text-text-loud">Customer information</h5>
+
+          <div className="w-full max-w-[740px] grid grid-cols-2 gap-[24px]">
+            <div className="w-full flex flex-col gap-[10px]">
+              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] py-[10px] bg-background-white">
+                <label htmlFor="">
+                  <p className="small text-text-muted px-[14px]">
+                    Select buyer type*
+                  </p>
+                </label>
+
+                <StringDropDown
+                  cb={buyerTypeDropDownCB}
+                  dropData={buyerTypeDropData}
+                  initialState={buyerType}
+                />
+              </div>
             </div>
 
-            {errors.name && (
-              <p className="x-small w-full text-left text-secondary_red-100 leading-[14px]">
-                {`${errors.name.message}`}
-              </p>
-            )}
-          </div>
+            <div className="w-full flex flex-col gap-[10px]">
+              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] py-[10px] bg-background-white">
+                <label htmlFor="">
+                  <p className="small text-text-muted px-[14px]">
+                    Select user*
+                  </p>
+                </label>
 
-          <div className="w-full flex flex-col gap-[10px]">
-            <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
-              <label htmlFor="">
-                <p className="small text-text-muted">Product price (₦)*</p>
-              </label>
-              <input
-                {...register("price", {
-                  valueAsNumber: true,
-                })}
-                type="text"
-                placeholder="Enter product price"
-                className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
-              />
+                <StringDropDown
+                  cb={selectUserDropDownCB}
+                  dropData={selectUserDropData}
+                  initialState={selectUser}
+                />
+              </div>
             </div>
-
-            {errors.price && (
-              <p className="x-small w-full text-left text-secondary_red-100 leading-[14px]">
-                {`${errors.price.message}`}
-              </p>
-            )}
-          </div>
-
-          <div className="w-full flex flex-col gap-[10px]">
-            <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] py-[10px] bg-background-white">
-              <label htmlFor="">
-                <p className="small text-text-muted px-[14px]">
-                  Product Category*
-                </p>
-              </label>
-
-              <CategoryDropDown cb={categoryDropCB} />
-            </div>
-          </div>
-
-          <div className="w-full flex flex-col gap-[10px]">
-            <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] py-[10px] bg-background-white">
-              <label htmlFor="">
-                <p className="small text-text-muted px-[14px]">Status*</p>
-              </label>
-
-              <BoolDropDown
-                cb={dropDownCB}
-                dropData={dropData}
-                initialState={{ label: "Active", value: true }}
-              />
-            </div>
-          </div>
-
-          <div className="w-full flex flex-col gap-[10px]">
-            <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
-              <label htmlFor="">
-                <p className="small text-text-muted">Commission (%)*</p>
-              </label>
-              <input
-                {...register("commission", {
-                  valueAsNumber: true,
-                })}
-                type="text"
-                placeholder="Enter commission in percentage"
-                className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
-              />
-            </div>
-
-            {errors.commission && (
-              <p className="x-small w-full text-left text-secondary_red-100 leading-[14px]">
-                {`${errors.commission.message}`}
-              </p>
-            )}
           </div>
         </div>
 
-        <div className="w-full">
-          <FileUpload cb={uploadCB} actionWord="Click here to upload image" />
-        </div>
+        <div className="shadow w-full flex flex-col gap-[16px] p-[24px] bg-background-disabled rounded-[8px]">
+          <h5 className="text-text-loud">Product information</h5>
 
-        <div className="w-full max-w-[740px] p-[16px] flex flex-col gap-[12px] bg-background-disabled">
           <button
             onClick={handleAddNewVariation}
             type="button"
             className="w-full flex flex-col justify-center items-center p-[18px] text-text-muted bg-background-white"
           >
-            <AddIcon />
-            <p className="small text-text-muted !font-semibold">
-              Add variation
-            </p>
+            <div className="w-[25px] h-[25px] rounded-full bg-primary-100 text-text-white flex justify-center items-center">
+              <AddIcon />
+            </div>
+            <p className="small text-text-muted !font-semibold">Add product</p>
           </button>
 
           <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px]">
@@ -283,21 +216,116 @@ export default function AdminCreateProduct() {
           </div>
         </div>
 
-        <div className="w-full flex gap-[10px] justify-start">
-          <button
-            type="button"
-            onClick={() => router.push("/admin/earner-levels")}
-            className="shadow bg-background-white px-[20px] py-[10px] text-text-muted rounded-[6px] hover:bg-secondary_red-100 hover:text-text-white"
-          >
-            Cancel
-          </button>
+        <div className="shadow w-full flex flex-col gap-[16px] p-[24px] bg-background-disabled rounded-[8px]">
+          <h5 className="text-text-loud">Delivery information</h5>
+
+          <div className="w-full max-w-[740px] grid grid-cols-2 gap-[24px]">
+            <div className="w-full flex flex-col gap-[10px]">
+              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] py-[10px] bg-background-white">
+                <label htmlFor="">
+                  <p className="small text-text-muted px-[14px]">
+                    Delivery mode*
+                  </p>
+                </label>
+
+                <StringDropDown
+                  cb={deliveryModeDropDownCB}
+                  dropData={deliveryModeDropData}
+                  initialState={deliveryMode}
+                />
+              </div>
+            </div>
+          </div>
+
+          {deliveryMode.toLowerCase() === "delivery" && (
+            <div className="w-full grid grid-cols-3 gap-[24px]">
+              <div className="w-full flex flex-col gap-[10px] col-span-2">
+                <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
+                  <label htmlFor="">
+                    <p className="small text-text-muted">Delivery address*</p>
+                  </label>
+                  <input
+                    value={deliveryAddress}
+                    onChange={(e) => setDeliveryAddress(e.target.value)}
+                    type="text"
+                    placeholder="Enter delivery address"
+                    className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="w-full flex flex-col gap-[10px] ">
+                <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
+                  <label htmlFor="">
+                    <p className="small text-text-muted">Phone number*</p>
+                  </label>
+                  <input
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    type="text"
+                    placeholder="Enter phone number"
+                    className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="w-full flex flex-col gap-[10px] ">
+                <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
+                  <label htmlFor="">
+                    <p className="small text-text-muted">Delivery fee*</p>
+                  </label>
+                  <input
+                    value={deliveryFee}
+                    onChange={(e) => setDeliveryFee(e.target.value)}
+                    type="text"
+                    placeholder="Enter delivery fee"
+                    className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="shadow w-full flex flex-col gap-[16px] p-[24px] bg-background-disabled rounded-[8px]">
+          <h5 className="text-text-loud">Payment information</h5>
+
+          <div className="w-full max-w-[740px] grid grid-cols-2 gap-[24px]">
+            <div className="w-full flex flex-col gap-[10px]">
+              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] py-[10px] bg-background-white">
+                <label htmlFor="">
+                  <p className="small text-text-muted px-[14px]">
+                    Payment status*
+                  </p>
+                </label>
+
+                <StringDropDown
+                  cb={paymentInfoDropDownCB}
+                  dropData={paymentInfoDropData}
+                  initialState={paymentInfo}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full h-[1px] bg-[#ECEFF3]"></div>
+
+          <div className="w-full flex justify-end">
+            <div className="flex gap-[56px] justify-between items-center px-[20px] py-[12px] shadow bg-background-white rounded-[6px]">
+              <h5 className="text-text-disabled">Total</h5>
+              <h4 className="text-text-loud !font-semibold">₦0.00</h4>
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full flex gap-[10px] justify-end">
           <button
             // disabled={isPending}
             type="submit"
             className="disabled:bg-[#050210]/50 bg-[#050210] px-[20px] py-[10px] text-text-white rounded-[6px]"
           >
             {/* {isPending ? "Submitting" : "Submit"} */}
-            Create
+            Submit
           </button>
         </div>
       </form>

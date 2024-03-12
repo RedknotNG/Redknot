@@ -15,6 +15,7 @@ import {
 } from "@tanstack/react-table";
 import {
   AdminOrderStatusRow,
+  AdminOrderTableRow,
   DateRow,
   TableHeader,
   TableRow,
@@ -128,7 +129,7 @@ export default function AdminEarnerOrders() {
         id: "customer_name",
         accessorKey: "customer_name",
         header: () => <TableHeader title="Customer name" />,
-        cell: (info: any) => <TableRow title={info.getValue()} />,
+        cell: (info: any) => <AdminOrderTableRow title={info.getValue()} />,
       },
       {
         id: "order_amount",
@@ -202,7 +203,7 @@ export default function AdminEarnerOrders() {
         </div>
 
         <Link
-          href={"/admin/orders/earner-orders/create-level"}
+          href={"/admin/orders/earner-orders/create-order"}
           className="bg-[#050210] px-[16px] py-[10px] flex gap-[5px] text-text-white rounded-[6px]"
         >
           <AddIcon />

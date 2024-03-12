@@ -178,3 +178,11 @@ export function AdminOrderStatusRow({ title }: { title: string }) {
     </div>
   );
 }
+
+export function AdminOrderTableRow({ title }: { title: string }) {
+  return (
+    <p className="small text-text-loud !font-medium text-center py-[30px]">
+      {title}
+    </p>
+  );
+}
