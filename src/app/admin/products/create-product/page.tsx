@@ -410,7 +410,7 @@ function AddVariation({
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.valueAsNumber)}
                 type="number"
-                placeholder="Enter product price"
+                placeholder="Enter quantity"
                 className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
               />
             </div>

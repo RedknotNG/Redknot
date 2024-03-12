@@ -15,3 +15,11 @@ export type NavLinkSchema = {
   path: string;
   icon: ReactElement;
 };
+
+export type AdminAddProductOrderSchema = {
+  id: string;
+  product: string;
+  color: string;
+  size: string;
+  quantity: number;
+};

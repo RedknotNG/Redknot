@@ -4,10 +4,11 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import SlashIcon from "@/icons/SlashIcon";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import AdminProductsIcon from "@/icons/AdminLayout/AdminProductsIcon";
 import BoolDropDown from "@/components/DefaultBoolDrop";
-import { BoolDropdownSchema, ProductVariationSchema } from "@/lib/AdminTypes";
-import CategoryDropDown from "@/components/AdminProducts/CategoryDrop";
+import {
+  BoolDropdownSchema,
+  AdminAddProductOrderSchema,
+} from "@/lib/AdminTypes";
 import AddIcon from "@/icons/AddIcon";
 import StringDropDown from "@/components/StringDropDown";
 import FileUpload from "@/components/FileUpload";
@@ -18,12 +19,11 @@ import AdminOrdersIcon from "@/icons/AdminLayout/AdminOrdersIcon";
 import { useForm } from "react-hook-form";
 
 export default function AdminCreateEarnerOrder() {
-  const [level, setLevel] = useState(true);
-  const [addVariationError, setAddVariationError] = useState(false);
-  const [variationData, setVariationData] = useState<ProductVariationSchema[]>(
+  const [addProductError, setAddProductError] = useState(false);
+  const [productData, setProductData] = useState<AdminAddProductOrderSchema[]>(
     []
   );
-  const [variationActive, setVariationActive] = useState(false);
+  const [productActive, setProductActive] = useState(false);
   const [buyerType, setBuyerType] = useState("Earner");
   const [selectUser, setSelectUser] = useState("Tunde Fesojaiye");
   const [deliveryMode, setDeliveryMode] = useState("Pickup");
@@ -36,28 +36,28 @@ export default function AdminCreateEarnerOrder() {
   const countRef = useRef(0);
 
   function handleAddNewVariation() {
-    if (variationActive) {
-      setAddVariationError(true);
+    if (productActive) {
+      setAddProductError(true);
     } else {
-      setVariationActive(true);
-      setAddVariationError(false);
-      setVariationData((prev) => [
-        ...prev,
+      setProductActive(true);
+      setAddProductError(false);
+      setProductData((prev) => [
         {
           id: `${countRef.current++}`,
+          product: "Nini - Adire Agbada dress",
           color: "Red",
           size: "XXXL",
           quantity: 0,
-          variationStatus: true,
         },
+        ...prev,
       ]);
     }
   }
 
-  function handleSaveNewVariation(newData: ProductVariationSchema) {
+  function handleSaveNewProduct(newData: AdminAddProductOrderSchema) {
     console.log(newData);
-    setVariationActive(false);
-    setVariationData((prev) =>
+    setProductActive(false);
+    setProductData((prev) =>
       prev.map((data) => {
         if (data.id === newData.id) {
           return newData;
@@ -67,9 +67,9 @@ export default function AdminCreateEarnerOrder() {
     );
   }
 
-  function handleVariationCancel(id: string) {
-    setVariationActive(false);
-    setVariationData((prev) => prev.filter((data) => data.id !== id));
+  function handleProductCancel(id: string) {
+    setProductActive(false);
+    setProductData((prev) => prev.filter((data) => data.id !== id));
   }
 
   function buyerTypeDropDownCB(value: string) {
@@ -85,7 +85,7 @@ export default function AdminCreateEarnerOrder() {
   }
 
   function paymentInfoDropDownCB(value: string) {
-    setDeliveryMode(value);
+    setPaymentInfo(value);
   }
 
   function onSubmit() {
@@ -203,14 +203,14 @@ export default function AdminCreateEarnerOrder() {
           </button>
 
           <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px]">
-            {variationData.length > 0 &&
-              variationData.map((data) => (
-                <AddVariation
+            {productData.length > 0 &&
+              productData.map((data) => (
+                <AddProduct
                   initialData={data}
                   key={data.id}
-                  handleSaveNewVariation={handleSaveNewVariation}
-                  handleCancel={handleVariationCancel}
-                  setVariationActive={setVariationActive}
+                  handleSaveNewProduct={handleSaveNewProduct}
+                  handleCancel={handleProductCancel}
+                  setProductActive={setProductActive}
                 />
               ))}
           </div>
@@ -333,23 +333,21 @@ export default function AdminCreateEarnerOrder() {
   );
 }
 
-function AddVariation({
+function AddProduct({
   initialData,
-  handleSaveNewVariation,
+  handleSaveNewProduct,
   handleCancel,
-  setVariationActive,
+  setProductActive,
 }: {
-  initialData: ProductVariationSchema;
-  handleSaveNewVariation: (data: ProductVariationSchema) => void;
+  initialData: AdminAddProductOrderSchema;
+  handleSaveNewProduct: (data: AdminAddProductOrderSchema) => void;
   handleCancel: (id: string) => void;
-  setVariationActive: Dispatch<SetStateAction<boolean>>;
+  setProductActive: Dispatch<SetStateAction<boolean>>;
 }) {
   const [color, setColor] = useState(initialData.color);
   const [size, setSize] = useState(initialData.size);
   const [quantity, setQuantity] = useState<number>(initialData.quantity);
-  const [variationStatus, setVariationStatus] = useState(
-    initialData.variationStatus
-  );
+  const [product, setProduct] = useState(initialData.product);
 
   const [saved, setSaved] = useState(false);
 
@@ -359,12 +357,8 @@ function AddVariation({
   function sizeDropDownCB(value: string) {
     setSize(value);
   }
-  function dropDownCB(value: boolean) {
-    setVariationStatus(value);
-  }
-
-  function uploadCB(imageURL: string) {
-    console.log(imageURL);
+  function productDropDownCB(value: string) {
+    setProduct(value);
   }
 
   function handleSave() {
@@ -373,29 +367,46 @@ function AddVariation({
       color,
       size,
       quantity,
-      variationStatus,
+      product,
     };
     setSaved(true);
-    handleSaveNewVariation(payload);
+    handleSaveNewProduct(payload);
   }
 
   function handleEdit() {
     setSaved(false);
-    setVariationActive(true);
+    setProductActive(true);
   }
 
   const colorDropData: string[] = ["Red", "Violet", "Pink", "Black", "White"];
   const sizeDropData: string[] = ["M", "L", "XL", "XXL", "XXXL"];
-  const dropData: BoolDropdownSchema[] = [
-    { label: "Active", value: true },
-    { label: "Inactive", value: false },
+  const productDropData: string[] = [
+    "Nini - Adire Agbada dress",
+    "Nini - Adire Agbada dress",
+    "Nini - Adire Agbada dress",
   ];
 
   return (
-    <div className="w-full bg-background-white p-[16px] rounded-[6px]">
+    <div className="w-full bg-background-white p-[16px] rounded-[6px] shadow">
       {!saved ? (
-        <div className="w-full max-w-[500px] flex flex-col gap-[24px]">
+        <div className="w-full max-w-[740px] flex flex-col gap-[16px]">
           <div className="w-full grid grid-cols-2 gap-[24px]">
+            <div className="w-full flex flex-col gap-[10px]">
+              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] py-[10px] bg-background-white">
+                <label htmlFor="">
+                  <p className="small text-text-muted px-[14px]">
+                    Select product*
+                  </p>
+                </label>
+
+                <StringDropDown
+                  cb={productDropDownCB}
+                  dropData={productDropData}
+                  initialState={product}
+                />
+              </div>
+            </div>
+
             <div className="w-full flex flex-col gap-[10px]">
               <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] py-[10px] bg-background-white">
                 <label htmlFor="">
@@ -427,43 +438,21 @@ function AddVariation({
                 />
               </div>
             </div>
-          </div>
 
-          <div className="w-full max-w-[358px]">
-            <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
-              <label htmlFor="">
-                <p className="small text-text-muted">Enter quantity*</p>
-              </label>
-              <input
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.valueAsNumber)}
-                type="number"
-                placeholder="Enter product price"
-                className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
-              />
+            <div className="w-full flex flex-col gap-[10px]">
+              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
+                <label htmlFor="">
+                  <p className="small text-text-muted">Quantity*</p>
+                </label>
+                <input
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.valueAsNumber)}
+                  type="number"
+                  placeholder="Enter quantity"
+                  className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
+                />
+              </div>
             </div>
-          </div>
-
-          <div className="w-full grid grid-cols-2 gap-[24px]">
-            <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] py-[10px] bg-background-white">
-              <label htmlFor="">
-                <p className="small text-text-muted px-[14px]">Status*</p>
-              </label>
-
-              <BoolDropDown
-                cb={dropDownCB}
-                dropData={dropData}
-                initialState={
-                  variationStatus
-                    ? { label: "Active", value: true }
-                    : { label: "Inactive", value: false }
-                }
-              />
-            </div>
-          </div>
-
-          <div className="w-full">
-            <FileUpload cb={uploadCB} actionWord="Click here to upload image" />
           </div>
 
           <div className="w-full flex gap-[10px] justify-start">
@@ -479,56 +468,47 @@ function AddVariation({
               type="button"
               className=" bg-[#050210] px-[20px] py-[5px] text-text-white rounded-[6px]"
             >
-              Save
+              Add
             </button>
           </div>
         </div>
       ) : (
         <div className="flex justify-between items-center">
-          <div className="flex gap-[16px] items-center">
-            <Image
-              alt="Variation Image"
-              src={bs1}
-              width={40}
-              height={40}
-              className="rounded-full"
-            />
-
-            <p className="small text-text-loud text-left px-[16px]">{color}</p>
-
-            <p className="small text-[#667085] text-left px-[16px]">{size}</p>
-
-            <p className="small text-[#667085] text-left px-[16px]">
-              {quantity}
+          <div className="flex flex-col gap-[12px] items-start">
+            <p className="small !font-medium text-text-loud text-left">
+              {product}
             </p>
+            <div className="flex gap-[8px] items-center">
+              <p className="x-small !font-medium text-[#344054] text-center px-[8px] rounded-[16px] bg-[#F2F4F7]">
+                {color}
+              </p>
 
-            <div className="w-full flex justify-center items-center px-[16px]">
-              {variationStatus ? (
-                <div className="w-fit green-shadow bg-[#ECFDF3] flex gap-[6px] items-center justify-center px-[8px] py-[3px] text-[#027A48] rounded-[4px]">
-                  <Dot />
-                  <p
-                    className={`x-small text-[#027A48] !font-medium !leading-[18px]`}
-                  >
-                    Active
-                  </p>
-                </div>
-              ) : (
-                <div className="w-fit red-shadow bg-[#FEF3F2] flex gap-[6px] items-center justify-center px-[8px] py-[3px] text-[#B42318] rounded-[4px]">
-                  <p
-                    className={`x-small text-[#B42318] !font-medium leading-[18px]`}
-                  >
-                    Inactive
-                  </p>
-                </div>
-              )}
+              <p className="x-small !font-medium text-[#344054] text-center px-[8px] rounded-[16px] bg-[#F2F4F7]">
+                {size}
+              </p>
+
+              <p className="x-small !font-medium text-[#344054] text-center px-[8px] rounded-[16px] bg-[#F2F4F7]">
+                {quantity}
+              </p>
             </div>
           </div>
-          <button
-            onClick={handleEdit}
-            className="text-primary-100 font-semibold text-[14px] font-inter leading-[20px]"
-          >
-            Edit Variation
-          </button>
+
+          <div className="flex gap-[16px] items-center">
+            <button
+              type="button"
+              onClick={() => handleCancel(initialData.id)}
+              className="text-secondary_red-100 font-semibold text-[14px] font-inter leading-[20px]"
+            >
+              Remove product
+            </button>
+            <button
+              type="button"
+              onClick={handleEdit}
+              className="text-primary-100 font-semibold text-[14px] font-inter leading-[20px]"
+            >
+              Edit product
+            </button>
+          </div>
         </div>
       )}
     </div>
