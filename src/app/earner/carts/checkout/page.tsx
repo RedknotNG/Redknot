@@ -140,27 +140,29 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <div className="w-full flex flex-col gap-[10px]">
-              <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
-                <label htmlFor="">
-                  <p className="small text-[#36394A] font-medium">
-                    Delivery Address*
-                  </p>
-                </label>
-                <input
-                  {...register("address")}
-                  type="text"
-                  placeholder="Enter delivery address"
-                  className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
-                />
-              </div>
+            {deliveryOption === "delivery" && (
+              <div className="w-full flex flex-col gap-[10px]">
+                <div className="w-full flex flex-col gap-[2px] border-[1px] rounded-[6px] px-[14px] py-[10px] bg-background-white">
+                  <label htmlFor="">
+                    <p className="small text-[#36394A] font-medium">
+                      Delivery Address*
+                    </p>
+                  </label>
+                  <input
+                    {...register("address")}
+                    type="text"
+                    placeholder="Enter delivery address"
+                    className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
+                  />
+                </div>
 
-              {errors.address && (
-                <p className="x-small w-full text-left text-secondary_red-100 leading-[14px]">
-                  {`${errors.address.message}`}
-                </p>
-              )}
-            </div>
+                {errors.address && (
+                  <p className="x-small w-full text-left text-secondary_red-100 leading-[14px]">
+                    {`${errors.address.message}`}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col gap-[20px] py-[32px] border-t border-t-border-normal">

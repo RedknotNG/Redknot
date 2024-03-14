@@ -309,9 +309,12 @@ export default function AdminEarnerOrders() {
 function TableAction({ slug, id }: { slug: string; id: string }) {
   return (
     <div className="flex gap-[24px] justify-center">
-      <button className="text-text-normal">
+      <Link
+        href={`/admin/orders/earner-orders/${slug}?orderId=${id}`}
+        className="text-text-normal"
+      >
         <ViewIcon />
-      </button>
+      </Link>
       <button className="text-text-normal">
         <EditIcon />
       </button>
