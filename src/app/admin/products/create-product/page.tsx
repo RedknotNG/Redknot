@@ -36,7 +36,7 @@ export type TProductSchema = z.infer<typeof productSchema>;
 
 export default function AdminCreateProduct() {
   const [level, setLevel] = useState(true);
-  const [addPageError, setAddVariationError] = useState(false);
+  const [addVariationError, setAddVariationError] = useState(false);
   const [variationData, setVariationData] = useState<ProductVariationSchema[]>(
     []
   );
@@ -123,7 +123,7 @@ export default function AdminCreateProduct() {
     // createLevel(payload);
   }
   return (
-    <div className="adminWidth flex flex-col gap-[50px] p-[32px]">
+    <div className="adminWidth flex flex-col gap-[32px] p-[32px]">
       <div className="w-full flex justify-between items-center">
         <div className="flex gap-[12px]">
           <div className="text-text-normal">
@@ -144,14 +144,12 @@ export default function AdminCreateProduct() {
             <SlashIcon />
           </div>
 
-          <p className="small text-primary-100 font-medium leading-[20px]">
-            Create product
-          </p>
+          <p className="small text-primary-100 !font-medium">Create product</p>
         </div>
       </div>
 
       <div className="flex flex-col gap-[3px]">
-        <h3 className="font-semibold text-text-loud leading-[40px]">
+        <h3 className="!font-semibold text-text-loud leading-[40px]">
           Create product
         </h3>
         <p className="text-text-normal leading-[24px]">
@@ -266,7 +264,7 @@ export default function AdminCreateProduct() {
             className="w-full flex flex-col justify-center items-center p-[18px] text-text-muted bg-background-white"
           >
             <AddIcon />
-            <p className="small text-text-muted font-semibold leading-[20px]">
+            <p className="small text-text-muted !font-semibold">
               Add variation
             </p>
           </button>
@@ -412,7 +410,7 @@ function AddVariation({
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.valueAsNumber)}
                 type="number"
-                placeholder="Enter product price"
+                placeholder="Enter quantity"
                 className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
               />
             </div>
@@ -468,15 +466,11 @@ function AddVariation({
               className="rounded-full"
             />
 
-            <p className="small leading-[20px] text-text-loud font-normal text-left px-[16px]">
-              {color}
-            </p>
+            <p className="small text-text-loud text-left px-[16px]">{color}</p>
 
-            <p className="small leading-[20px] text-[#667085] font-normal text-left px-[16px]">
-              {size}
-            </p>
+            <p className="small text-[#667085] text-left px-[16px]">{size}</p>
 
-            <p className="small leading-[20px] text-[#667085] font-normal text-left px-[16px]">
+            <p className="small text-[#667085] text-left px-[16px]">
               {quantity}
             </p>
 
@@ -485,7 +479,7 @@ function AddVariation({
                 <div className="w-fit green-shadow bg-[#ECFDF3] flex gap-[6px] items-center justify-center px-[8px] py-[3px] text-[#027A48] rounded-[4px]">
                   <Dot />
                   <p
-                    className={`x-small text-[#027A48] font-medium leading-[18px]`}
+                    className={`x-small text-[#027A48] !font-medium !leading-[18px]`}
                   >
                     Active
                   </p>
@@ -493,7 +487,7 @@ function AddVariation({
               ) : (
                 <div className="w-fit red-shadow bg-[#FEF3F2] flex gap-[6px] items-center justify-center px-[8px] py-[3px] text-[#B42318] rounded-[4px]">
                   <p
-                    className={`x-small text-[#B42318] font-medium leading-[18px]`}
+                    className={`x-small text-[#B42318] !font-medium leading-[18px]`}
                   >
                     Inactive
                   </p>

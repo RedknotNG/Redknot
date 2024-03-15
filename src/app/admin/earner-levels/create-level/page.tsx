@@ -77,7 +77,7 @@ export default function AdminCreateLevel() {
     createLevel(payload);
   }
   return (
-    <div className="adminWidth flex flex-col gap-[50px] p-[32px]">
+    <div className="adminWidth flex flex-col gap-[32px] p-[32px]">
       <div className="w-full flex justify-between items-center">
         <div className="flex gap-[12px]">
           <div className="text-text-normal">
@@ -98,13 +98,13 @@ export default function AdminCreateLevel() {
             <SlashIcon />
           </div>
 
-          <p className="small text-primary-100 font-medium leading-[20px]">
+          <p className="small text-primary-100 !font-medium">
             Create earner levels
           </p>
         </div>
       </div>
 
-      <h3 className="font-semibold text-text-loud leading-[40px]">
+      <h3 className="!font-semibold text-text-loud leading-[40px]">
         Create earner levels
       </h3>
 
@@ -113,7 +113,7 @@ export default function AdminCreateLevel() {
           onSubmit={handleSubmit(onSubmit)}
           className="w-full flex flex-col gap-[16px] items-start"
         >
-          <h5 className="font-medium text-text-loud leading-[28px]">
+          <h5 className="!font-medium text-text-loud leading-[28px]">
             Level information
           </h5>
 

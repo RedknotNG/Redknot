@@ -19,8 +19,11 @@ import AdminPayoutsIcon from "@/icons/AdminLayout/AdminPayoutsIcon";
 import AdminProfileIcon from "@/icons/AdminLayout/AdminProfileIcon";
 import LogoutIcon from "@/icons/LogoutIcon";
 import Cookies from "js-cookie";
+import { NavLinkSchema } from "@/lib/AdminTypes";
+import { useState } from "react";
+import ArrowDownIcon from "@/icons/ArrowDownIcon";
 
-const navLinkData = [
+const navLinkData: NavLinkSchema[] = [
   {
     title: "Dashboard",
     path: "/admin/dashboard",
@@ -73,34 +76,7 @@ export default function EarnerLayout({
                 <div className="flex flex-col gap-[20px]">
                   <div className="flex flex-col gap-[5px]">
                     {navLinkData.map((data, index) => (
-                      <Link
-                        href={data.path}
-                        key={index}
-                        className={
-                          pathname.includes(data.path)
-                            ? "flex gap-[12px] rounded-[4px] py-[8px] px-[12px] bg-background-hover"
-                            : "flex gap-[12px] rounded-[4px] py-[8px] px-[12px] bg-transparent"
-                        }
-                      >
-                        <div
-                          className={
-                            pathname.includes(data.path)
-                              ? "text-text-muted"
-                              : "text-text-normal"
-                          }
-                        >
-                          {data.icon}
-                        </div>
-                        <p
-                          className={
-                            pathname.includes(data.path)
-                              ? "small text-text-muted leading-[20px]"
-                              : "small text-text-normal leading-[20px] font-medium"
-                          }
-                        >
-                          {data.title}
-                        </p>
-                      </Link>
+                      <NavLink key={index} data={data} />
                     ))}
                   </div>
 
@@ -216,5 +192,107 @@ export default function EarnerLayout({
         <body className={`${inter.variable}`}>{children}</body>
       )}
     </html>
+  );
+}
+
+function NavLink({ data }: { data: NavLinkSchema }) {
+  const pathname = usePathname();
+
+  const [showOrders, setShowOrders] = useState(false);
+  return (
+    <div>
+      {data.title === "Orders" ? (
+        <div
+          className="flex flex-col"
+          style={{
+            height: showOrders ? "92px" : "37px",
+            transition: "height 200ms cubic-bezier(0.25, 0.1, 0.25, 1) 0s",
+          }}
+        >
+          <button
+            onClick={() => setShowOrders((prev) => !prev)}
+            className={`flex gap-[12px] items-center justify-between rounded-[4px] py-[8px] px-[12px] bg-transparent`}
+          >
+            <div className="flex gap-[12px] items-center">
+              <div
+                className={
+                  pathname.includes(data.path)
+                    ? "text-text-muted"
+                    : "text-text-normal"
+                }
+              >
+                {data.icon}
+              </div>
+              <p
+                className={
+                  pathname.includes(data.path)
+                    ? "small text-text-muted leading-[20px] !font-medium"
+                    : "small text-text-normal leading-[20px]"
+                }
+              >
+                {data.title}
+              </p>
+            </div>
+            <div
+              className={`w-fit`}
+              style={{
+                transform: `rotateZ(${showOrders ? "180" : "0"}deg)`,
+                transition: "transform ease 200ms",
+              }}
+            >
+              <ArrowDownIcon />
+            </div>
+          </button>
+
+          {showOrders && (
+            <Link
+              href={"/admin/orders/earner-orders"}
+              className="flex gap-[12px] items-center rounded-[4px] py-[8px] px-[12px]"
+            >
+              <div className="flex justify-center items-center px-[10px] ">
+                <div className="w-[2px] h-[28px] bg-[#A4ACB9]"></div>
+              </div>
+              <p
+                className={
+                  pathname.includes("/admin/orders/earner-orders")
+                    ? "flex-grow small text-text-muted leading-[20px] !font-medium py-[8px] px-[12px] bg-background-hover border-[2px] rounded-[4px]"
+                    : "flex-grow small text-text-normal leading-[20px] py-[8px] px-[12px]"
+                }
+              >
+                {"Earner Orders"}
+              </p>
+            </Link>
+          )}
+        </div>
+      ) : (
+        <Link
+          href={data.path}
+          className={
+            pathname.includes(data.path)
+              ? "flex gap-[12px] items-center rounded-[4px] py-[8px] px-[12px] bg-background-hover border-[2px]"
+              : "flex gap-[12px] items-center rounded-[4px] py-[8px] px-[12px] bg-transparent"
+          }
+        >
+          <div
+            className={
+              pathname.includes(data.path)
+                ? "text-text-muted"
+                : "text-text-normal"
+            }
+          >
+            {data.icon}
+          </div>
+          <p
+            className={
+              pathname.includes(data.path)
+                ? "small text-text-muted leading-[20px] !font-medium"
+                : "small text-text-normal leading-[20px]"
+            }
+          >
+            {data.title}
+          </p>
+        </Link>
+      )}
+    </div>
   );
 }

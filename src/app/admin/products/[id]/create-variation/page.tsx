@@ -20,7 +20,7 @@ export default function AdminCreateVariation() {
     console.log(newData);
   }
   return (
-    <div className="adminWidth flex flex-col gap-[50px] p-[32px]">
+    <div className="adminWidth flex flex-col gap-[32px] p-[32px]">
       <div className="w-full flex justify-between items-center">
         <div className="flex gap-[12px]">
           <div className="text-text-normal">
@@ -52,13 +52,13 @@ export default function AdminCreateVariation() {
             <SlashIcon />
           </div>
 
-          <p className="small text-primary-100 font-medium leading-[20px]">
+          <p className="small text-primary-100 !font-medium">
             Create variation
           </p>
         </div>
       </div>
 
-      <h3 className="font-semibold text-text-loud leading-[40px]">
+      <h3 className="!font-semibold text-text-loud leading-[40px]">
         Create variation
       </h3>
 
