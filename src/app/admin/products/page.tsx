@@ -6,6 +6,8 @@ import { ReactElement, useState } from "react";
 
 import AdminProductsIcon from "@/icons/AdminLayout/AdminProductsIcon";
 import AdminAllProducts from "@/components/AdminProducts/AllProducts";
+import { useRouter, useSearchParams } from "next/navigation";
+import AdminProductCategories from "@/components/AdminProducts/AdminProductCategories";
 
 const switchButtonData = [
   "All products",
@@ -15,22 +17,31 @@ const switchButtonData = [
 ];
 
 export default function AdminProducts() {
-  const [activeTab, setActiveTab] = useState<number>(0);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const active = searchParams.get("active");
 
-  function boardHandler(switchCase: number) {
+  const [activeTab, setActiveTab] = useState<string>(active as string);
+
+  function handleActive(data: string) {
+    setActiveTab(data);
+    router.push(`/admin/products?active=${data}`);
+  }
+
+  function boardHandler(switchCase: string) {
     let holder: ReactElement | string;
     switch (switchCase) {
-      case 0:
+      case "All products":
         holder = <AdminAllProducts />;
         break;
-      case 1:
+      case "Colors data":
         holder = "Colors Data";
         break;
-      case 2:
+      case "Sizes data":
         holder = "Sizes Data";
         break;
-      case 3:
-        holder = "Product categories";
+      case "Product categories":
+        holder = <AdminProductCategories />;
         break;
 
       default:
@@ -41,7 +52,7 @@ export default function AdminProducts() {
   return (
     <div className="adminWidth flex flex-col gap-[32px] p-[32px]">
       <div className="w-full flex justify-between items-center">
-        <div className="flex gap-[12px]">
+        <div className="flex gap-[12px] py-[10px]">
           <div className="text-text-normal">
             <AdminProductsIcon />
           </div>
@@ -49,15 +60,30 @@ export default function AdminProducts() {
             <SlashIcon />
           </div>
 
-          <p className="small text-primary-100 !font-medium">All products</p>
+          <p className="small text-primary-100 !font-medium">{activeTab}</p>
         </div>
 
-        <Link
-          href={"/admin/products/create-product"}
-          className="bg-[#050210] px-[16px] py-[10px] flex gap-[5px] text-text-white rounded-[6px]"
-        >
-          <p className="small !font-semibold text-text-white">Create product</p>
-        </Link>
+        {active === "All products" && (
+          <Link
+            href={`/admin/products/create-product?active=${active}`}
+            className="bg-[#050210] px-[16px] py-[10px] flex gap-[5px] text-text-white rounded-[6px]"
+          >
+            <p className="small !font-semibold text-text-white">
+              Create product
+            </p>
+          </Link>
+        )}
+
+        {active === "Product categories" && (
+          <Link
+            href={`/admin/products/categories/create-categories?active=${active}`}
+            className="w-fit bg-[#050210] px-[16px] py-[10px] flex gap-[5px] text-text-white rounded-[6px]"
+          >
+            <p className="small !font-semibold text-text-white">
+              Create category
+            </p>
+          </Link>
+        )}
       </div>
 
       <h3 className="!font-semibold text-text-loud leading-[40px]">Products</h3>
@@ -67,9 +93,9 @@ export default function AdminProducts() {
           return (
             <button
               key={index}
-              onClick={() => setActiveTab(index)}
+              onClick={() => handleActive(data)}
               className={`font-inter text-[14px] font-medium leading-[20px] ${
-                activeTab === index
+                activeTab === data
                   ? "text-primary-700 underline underline-offset-[20px] border-b-primary-700 decoration-2"
                   : "text-text-normal"
               }`}

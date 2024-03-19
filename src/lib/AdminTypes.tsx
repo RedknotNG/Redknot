@@ -1,3 +1,4 @@
+import { StaticImageData } from "next/image";
 import { ReactElement } from "react";
 
 export type BoolDropdownSchema = { label: string; value: boolean };
@@ -22,4 +23,19 @@ export type AdminAddProductOrderSchema = {
   color: string;
   size: string;
   quantity: number;
+};
+
+export type ProductCategoriesTableDataSchema = {
+  name: { title: string; image: StaticImageData };
+  description: string;
+  id: string;
+};
+
+export type ProductsSchema = {
+  img: StaticImageData;
+  title: string;
+  position: string;
+  available: number;
+  price: string;
+  id: string;
 };

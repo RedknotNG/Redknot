@@ -31,7 +31,7 @@ import Link from "next/link";
 import AdminProductsIcon from "@/icons/AdminLayout/AdminProductsIcon";
 import SlashIcon from "@/icons/SlashIcon";
 import AddIcon from "@/icons/AddIcon";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import CancelIcon from "@/icons/CancelIcon";
 import CategoryDropDown from "@/components/AdminProducts/CategoryDrop";
 
@@ -68,12 +68,14 @@ const tableData: EachProductTableDataSchema[] = [
 ];
 
 export default function AdminEachProducts() {
+  const searchParams = useSearchParams();
+  const active = searchParams.get("active");
+  const params = useParams();
+  const { id } = params;
+
   const [data, setData] = useState(() => [...tableData]);
   const [searchValue, setSearchValue] = useState("");
   const [showAdd, setShowAdd] = useState(false);
-
-  const params = useParams();
-  const { id } = params;
 
   // const { data: earnerLevels, isLoading } = useQuery({
   //   queryFn: () => UseGetEarnerLevels(),
@@ -156,7 +158,7 @@ export default function AdminEachProducts() {
             </div>
 
             <Link
-              href={"/admin/products"}
+              href={`/admin/products?active=${active as string}`}
               className="small text-text-normal font-medium leading-[20px]"
             >
               All products
@@ -172,7 +174,9 @@ export default function AdminEachProducts() {
           </div>
 
           <Link
-            href={`/admin/products/${id as string}/create-variation`}
+            href={`/admin/products/${id as string}/create-variation?active=${
+              active as string
+            }`}
             className="bg-[#050210] px-[16px] py-[10px] flex gap-[5px] text-text-white rounded-[6px]"
           >
             <p className="small !font-semibold text-text-white">

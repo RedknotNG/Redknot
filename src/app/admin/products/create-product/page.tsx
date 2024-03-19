@@ -3,7 +3,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import SlashIcon from "@/icons/SlashIcon";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,6 +35,9 @@ const productSchema = z.object({
 export type TProductSchema = z.infer<typeof productSchema>;
 
 export default function AdminCreateProduct() {
+  const searchParams = useSearchParams();
+  const active = searchParams.get("active");
+
   const [level, setLevel] = useState(true);
   const [addVariationError, setAddVariationError] = useState(false);
   const [variationData, setVariationData] = useState<ProductVariationSchema[]>(
@@ -125,7 +128,7 @@ export default function AdminCreateProduct() {
   return (
     <div className="adminWidth flex flex-col gap-[32px] p-[32px]">
       <div className="w-full flex justify-between items-center">
-        <div className="flex gap-[12px]">
+        <div className="flex gap-[12px] py-[10px]">
           <div className="text-text-normal">
             <AdminProductsIcon />
           </div>
@@ -134,7 +137,7 @@ export default function AdminCreateProduct() {
           </div>
 
           <Link
-            href={"/admin/products"}
+            href={`/admin/products?active=${active as string}`}
             className="small text-text-normal font-medium leading-[20px]"
           >
             All products
