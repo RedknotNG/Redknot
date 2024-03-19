@@ -5,9 +5,11 @@ import AdminProductsIcon from "@/icons/AdminLayout/AdminProductsIcon";
 import SlashIcon from "@/icons/SlashIcon";
 import { ProductVariationSchema } from "@/lib/AdminTypes";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 export default function AdminCreateVariation() {
+  const searchParams = useSearchParams();
+  const active = searchParams.get("active");
   const params = useParams();
   const { id } = params;
   const router = useRouter();
@@ -22,7 +24,7 @@ export default function AdminCreateVariation() {
   return (
     <div className="adminWidth flex flex-col gap-[32px] p-[32px]">
       <div className="w-full flex justify-between items-center">
-        <div className="flex gap-[12px]">
+        <div className="flex gap-[12px] py-[10px]">
           <div className="text-text-normal">
             <AdminProductsIcon />
           </div>
@@ -31,7 +33,7 @@ export default function AdminCreateVariation() {
           </div>
 
           <Link
-            href={"/admin/products"}
+            href={`/admin/products?active=${active as string}`}
             className="small text-text-normal font-medium leading-[20px]"
           >
             All products
@@ -42,7 +44,7 @@ export default function AdminCreateVariation() {
           </div>
 
           <Link
-            href={`/admin/products/${id as string}`}
+            href={`/admin/products/${id}?active=${active as string}`}
             className="small text-text-normal font-medium leading-[20px]"
           >
             Nini - Adire Agbada dress

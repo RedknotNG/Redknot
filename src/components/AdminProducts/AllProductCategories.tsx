@@ -19,7 +19,7 @@ import {
 } from "@/components/TableBody";
 import SearchIcon from "@/icons/SearchIcon";
 import DropDown from "@/components/DropDown";
-import bs1 from "../../../public/bs1.png";
+
 import { StaticImageData } from "next/image";
 import EditIcon from "@/icons/EditIcon";
 import ViewIcon from "@/icons/ViewIcon";
@@ -28,95 +28,36 @@ import { UseGetEarnerLevels } from "@/api/api";
 import ImageIcon from "@/icons/ImageIcon";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { ProductCategoriesTableDataSchema } from "@/lib/AdminTypes";
 
-type ProductsTableDataSchema = {
-  name: { title: string; image: StaticImageData };
-  quantity: number;
-  price: string;
-  commission: string;
-  status: string;
-  id: string;
-};
-
-const tableData: ProductsTableDataSchema[] = [
-  {
-    id: "12ew",
-    name: { title: "Nini - Adire Agbada dress", image: bs1 },
-    quantity: 20,
-    price: "₦10,000",
-    commission: "₦400",
-    status: "Active",
-  },
-  {
-    id: "12w",
-    name: { title: "Oyin sleeveless Hoodie", image: bs1 },
-    quantity: 50,
-    price: "₦3,500",
-    commission: "₦200",
-    status: "Active",
-  },
-  {
-    id: "12e",
-    name: { title: "Otutu Set (children)", image: bs1 },
-    quantity: 120,
-    price: "₦10,000",
-    commission: "₦1000",
-    status: "Inactive",
-  },
-  {
-    id: "1ew",
-    name: { title: "Sleeveless Hoodie", image: bs1 },
-    quantity: 45,
-    price: "₦8,000",
-    commission: "₦100,000",
-    status: "Inactive",
-  },
-];
-
-export default function AdminAllProducts() {
+export default function AdminAllProductCategories({
+  tableData,
+}: {
+  tableData: ProductCategoriesTableDataSchema[];
+}) {
   const [data, setData] = useState(() => [...tableData]);
   const [searchValue, setSearchValue] = useState("");
 
-  // const { data: earnerLevels, isLoading } = useQuery({
-  //   queryFn: () => UseGetEarnerLevels(),
-  //   queryKey: ["getEarnerLevels"],
-  // });
-
-  const columns = useMemo<ColumnDef<ProductsTableDataSchema>[]>(
+  const columns = useMemo<ColumnDef<ProductCategoriesTableDataSchema>[]>(
     () => [
       {
         id: "name",
         accessorKey: "name",
-        header: () => <TableHeader title="Name" />,
+        header: () => <TableHeader title="Category name" />,
         cell: (info: any) => {
           return <ProductTitleRow name={info.getValue()} />;
         },
       },
-      {
-        id: "quantity",
-        accessorKey: "quantity",
-        header: () => <TableHeader title="Available quantity" />,
-        cell: (info: any) => <TableRow title={info.getValue()} />,
-      },
 
       {
-        id: "price",
-        accessorKey: "price",
-        header: () => <TableHeader title="Customer price" />,
-        cell: (info: any) => <TableRow title={info.getValue()} />,
+        id: "description",
+        accessorKey: "description",
+        header: () => <TableHeader title="Description" />,
+        cell: (info: any) => {
+          return <TableRow title={info.getValue()} />;
+        },
       },
-      {
-        id: "commission",
-        accessorKey: "commission",
-        header: () => <TableHeader title="Commission" />,
-        cell: (info: any) => <TableRow title={info.getValue()} />,
-      },
-      {
-        id: "status",
-        accessorKey: "status",
-        header: () => <TableHeader title="Status" />,
-        cell: (info: any) => <ProductStatusRow title={info.getValue()} />,
-      },
+
       {
         id: "id",
         accessorKey: "id",
@@ -133,10 +74,6 @@ export default function AdminAllProducts() {
     getPaginationRowModel: getPaginationRowModel(),
     debugTable: true,
   });
-
-  // useEffect(() => {
-  //   setData(earnerLevels?.data);
-  // }, [earnerLevels]);
 
   return (
     <div className="shadow w-full rounded-[12px] flex flex-col">
@@ -231,17 +168,14 @@ function TableAction({ id }: { id: string }) {
   const active = searchParams.get("active");
   return (
     <div className="flex gap-[24px] justify-center">
-      <button className="text-text-normal">
-        <EditIcon />
-      </button>
       <Link
-        href={`/admin/products/${id}?active=${active as string}`}
+        href={`/admin/products/categories/${id}?active=${active as string}`}
         className="text-text-normal"
       >
         <ViewIcon />
       </Link>
       <button className="text-text-normal">
-        <ImageIcon />
+        <EditIcon />
       </button>
     </div>
   );
