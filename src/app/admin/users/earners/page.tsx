@@ -3,7 +3,7 @@
 import AddIcon from "@/icons/AddIcon";
 import SlashIcon from "@/icons/SlashIcon";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Column,
   ColumnDef,
@@ -14,8 +14,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import {
-  AdminOrderStatusRow,
-  AdminOrderTableRow,
   AdminUserLevelRow,
   AdminUserNameEmailRow,
   DateRow,
@@ -27,8 +25,6 @@ import SearchIcon from "@/icons/SearchIcon";
 import DropDown from "@/components/DropDown";
 import EditIcon from "@/icons/EditIcon";
 import ViewIcon from "@/icons/ViewIcon";
-import { useQuery } from "@tanstack/react-query";
-import AdminOrdersIcon from "@/icons/AdminLayout/AdminOrdersIcon";
 import AdminUsersIcon from "@/icons/AdminLayout/AdminUsersIcon";
 import Image, { StaticImageData } from "next/image";
 import earnerLevel1 from "../../../../../public/earnerLevel1.png";
@@ -37,7 +33,6 @@ import earnerLevel3 from "../../../../../public/earnerLevel3.png";
 import adminEmptyUsersEarners from "../../../../../public/emptyState/adminEmptyUsersEarners.webp";
 import StatusArrowDownIcon from "@/icons/StatusArrowDownIcon";
 import CoinIcon from "@/icons/CoinIcon";
-import CoinsIcon from "@/icons/CoinsIcon";
 
 type AdminUsersEarnerTableDataSchema = {
   created_at: string;
@@ -183,7 +178,7 @@ export default function AdminUsersEarnersPage() {
 
         {data.length > 0 && (
           <Link
-            href={"/admin/orders/earner-orders/create-order"}
+            href={"/admin/users/earners/add-earner"}
             className="bg-[#050210] px-[16px] py-[10px] flex gap-[5px] text-text-white rounded-[6px]"
           >
             <AddIcon />

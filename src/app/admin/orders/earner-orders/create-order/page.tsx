@@ -4,19 +4,10 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import SlashIcon from "@/icons/SlashIcon";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import BoolDropDown from "@/components/DefaultBoolDrop";
-import {
-  BoolDropdownSchema,
-  AdminAddProductOrderSchema,
-} from "@/lib/AdminTypes";
+import { AdminAddProductOrderSchema } from "@/lib/AdminTypes";
 import AddIcon from "@/icons/AddIcon";
 import StringDropDown from "@/components/StringDropDown";
-import FileUpload from "@/components/FileUpload";
-import Image from "next/image";
-import bs1 from "../../../../../../public/bs1.png";
-import Dot from "@/icons/Dot";
 import AdminOrdersIcon from "@/icons/AdminLayout/AdminOrdersIcon";
-import { useForm } from "react-hook-form";
 
 export default function AdminCreateEarnerOrder() {
   const [addProductError, setAddProductError] = useState(false);
