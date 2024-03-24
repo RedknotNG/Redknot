@@ -22,6 +22,8 @@ import Cookies from "js-cookie";
 import { NavLinkSchema } from "@/lib/AdminTypes";
 import { useState } from "react";
 import ArrowDownIcon from "@/icons/ArrowDownIcon";
+import { useModalContext } from "@/contexts/ModalContext";
+import { useModalComponentContext } from "@/contexts/ModalComponentContext";
 
 const navLinkData: NavLinkSchema[] = [
   {
@@ -58,6 +60,9 @@ export default function EarnerLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { modalActive } = useModalContext();
+  const { modal } = useModalComponentContext();
+
   const pathname = usePathname();
   const router = useRouter();
 
@@ -67,135 +72,137 @@ export default function EarnerLayout({
   }
 
   return (
-    <html lang="en">
+    <>
       {pathname !== "/admin" ? (
-        <body className={`${inter.variable}`}>
-          <section className="w-full relative">
-            <div className="h-screen fixed left-0 top-0 w-[272px] flex flex-col justify-between bg-background-disabled px-[16px] py-[24px]">
+        <section className="w-full relative">
+          <div className="h-screen fixed left-0 top-0 w-[272px] flex flex-col justify-between bg-background-disabled px-[16px] py-[24px]">
+            <div className="flex flex-col gap-[20px]">
+              <Link href={"/admin/dashboard"} className="text-text-loud">
+                <RedKnotSmallIcon />
+              </Link>
+
               <div className="flex flex-col gap-[20px]">
-                <Link href={"/admin/dashboard"} className="text-text-loud">
-                  <RedKnotSmallIcon />
-                </Link>
+                <div className="flex flex-col gap-[5px]">
+                  {navLinkData.map((data, index) => (
+                    <NavLink key={index} data={data} />
+                  ))}
+                </div>
 
-                <div className="flex flex-col gap-[20px]">
-                  <div className="flex flex-col gap-[5px]">
-                    {navLinkData.map((data, index) => (
-                      <NavLink key={index} data={data} />
-                    ))}
-                  </div>
+                <p className="small text-text-disabled font-medium leading-[20px] py-[8px] px-[12px] bg-transparent">
+                  Transactions
+                </p>
 
-                  <p className="small text-text-disabled font-medium leading-[20px] py-[8px] px-[12px] bg-transparent">
-                    Transactions
-                  </p>
-
-                  <div className="flex flex-col gap-[5px]">
-                    {navLinkTData.map((data, index) => (
-                      <Link
-                        href={data.path}
-                        key={index}
+                <div className="flex flex-col gap-[5px]">
+                  {navLinkTData.map((data, index) => (
+                    <Link
+                      href={data.path}
+                      key={index}
+                      className={
+                        pathname.includes(data.path)
+                          ? "flex gap-[12px] py-[8px] px-[12px] bg-background-hover"
+                          : "flex gap-[12px] py-[8px] px-[12px] bg-transparent"
+                      }
+                    >
+                      <div
                         className={
                           pathname.includes(data.path)
-                            ? "flex gap-[12px] py-[8px] px-[12px] bg-background-hover"
-                            : "flex gap-[12px] py-[8px] px-[12px] bg-transparent"
+                            ? "text-text-muted"
+                            : "text-text-normal"
                         }
                       >
-                        <div
-                          className={
-                            pathname.includes(data.path)
-                              ? "text-text-muted"
-                              : "text-text-normal"
-                          }
-                        >
-                          {data.icon}
-                        </div>
-                        <p
-                          className={
-                            pathname.includes(data.path)
-                              ? "small text-text-muted leading-[20px]"
-                              : "small text-text-normal leading-[20px] font-medium"
-                          }
-                        >
-                          {data.title}
-                        </p>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-full flex flex-col gap-[20px] items-center">
-                <div className="w-full flex flex-col gap-[10px]">
-                  <p className="small text-text-disabled font-medium leading-[20px] py-[8px] px-[12px] bg-transparent">
-                    Settings
-                  </p>
-
-                  <Link
-                    href={"/admin/profile"}
-                    className={
-                      pathname.includes("/admin/profile")
-                        ? "flex gap-[12px] py-[8px] px-[12px] bg-background-hover"
-                        : "flex gap-[12px] py-[8px] px-[12px] bg-transparent"
-                    }
-                  >
-                    <div
-                      className={
-                        pathname.includes("/admin/profile")
-                          ? "text-text-muted"
-                          : "text-text-normal"
-                      }
-                    >
-                      <AdminProfileIcon />
-                    </div>
-                    <p
-                      className={
-                        pathname.includes("/admin/profile")
-                          ? "small text-text-muted leading-[20px]"
-                          : "small text-text-normal leading-[20px] font-medium"
-                      }
-                    >
-                      Profile
-                    </p>
-                  </Link>
-                </div>
-
-                <div className="w-full flex justify-between gap-[5px]">
-                  <Image
-                    alt="Profile Img"
-                    src={ProfileAvatar}
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                  />
-                  <div className="flex flex-col gap-[5px]">
-                    <p className="w-[120px] small font-semibold leading-[20px] text-text-loud truncate">
-                      Mubarak Gbadeyanka
-                    </p>
-
-                    <p className="small leading-[20px] text-text-subdued">
-                      mubrak@gmail.com
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={handleLogout}
-                    className="text-text-normal hover:text-secondary_red-100"
-                  >
-                    <LogoutIcon />
-                  </button>
+                        {data.icon}
+                      </div>
+                      <p
+                        className={
+                          pathname.includes(data.path)
+                            ? "small text-text-muted leading-[20px]"
+                            : "small text-text-normal leading-[20px] font-medium"
+                        }
+                      >
+                        {data.title}
+                      </p>
+                    </Link>
+                  ))}
                 </div>
               </div>
             </div>
 
-            <section className="adminWidth absolute top-0 left-[272px]">
-              {children}
-            </section>
+            <div className="w-full flex flex-col gap-[20px] items-center">
+              <div className="w-full flex flex-col gap-[10px]">
+                <p className="small text-text-disabled font-medium leading-[20px] py-[8px] px-[12px] bg-transparent">
+                  Settings
+                </p>
+
+                <Link
+                  href={"/admin/profile"}
+                  className={
+                    pathname.includes("/admin/profile")
+                      ? "flex gap-[12px] py-[8px] px-[12px] bg-background-hover"
+                      : "flex gap-[12px] py-[8px] px-[12px] bg-transparent"
+                  }
+                >
+                  <div
+                    className={
+                      pathname.includes("/admin/profile")
+                        ? "text-text-muted"
+                        : "text-text-normal"
+                    }
+                  >
+                    <AdminProfileIcon />
+                  </div>
+                  <p
+                    className={
+                      pathname.includes("/admin/profile")
+                        ? "small text-text-muted leading-[20px]"
+                        : "small text-text-normal leading-[20px] font-medium"
+                    }
+                  >
+                    Profile
+                  </p>
+                </Link>
+              </div>
+
+              <div className="w-full flex justify-between gap-[5px]">
+                <Image
+                  alt="Profile Img"
+                  src={ProfileAvatar}
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+                <div className="flex flex-col gap-[5px]">
+                  <p className="w-[120px] small font-semibold leading-[20px] text-text-loud truncate">
+                    Mubarak Gbadeyanka
+                  </p>
+
+                  <p className="small leading-[20px] text-text-subdued">
+                    mubrak@gmail.com
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="text-text-normal hover:text-secondary_red-100"
+                >
+                  <LogoutIcon />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <section className="adminWidth absolute top-0 left-[272px]">
+            {children}
           </section>
-        </body>
+        </section>
       ) : (
         <body className={`${inter.variable}`}>{children}</body>
       )}
-    </html>
+
+      {modalActive && (
+        <div className="fixed top-0 left-0 h-screen w-screen z-50">{modal}</div>
+      )}
+    </>
   );
 }
 
@@ -273,7 +280,7 @@ function NavLink({ data }: { data: NavLinkSchema }) {
         <div
           className="flex flex-col"
           style={{
-            height: showUsers ? "100%" : "37px",
+            height: showUsers ? "170px" : "37px",
             transition: "height 200ms cubic-bezier(0.25, 0.1, 0.25, 1) 0s",
           }}
         >
@@ -319,12 +326,12 @@ function NavLink({ data }: { data: NavLinkSchema }) {
               </div>
               <div className="flex-grow flex flex-col gap-[5px]">
                 <Link
-                  href={"/admin/users"}
+                  href={"/admin/users/admin"}
                   className="flex gap-[12px] items-center rounded-[4px]"
                 >
                   <p
                     className={
-                      pathname.includes("/admin/users")
+                      pathname.includes("/admin/users/admin")
                         ? "flex-grow small text-text-muted leading-[20px] !font-medium py-[8px] px-[12px] bg-background-hover border-[2px] rounded-[4px]"
                         : "flex-grow small text-text-normal leading-[20px] py-[8px] px-[12px]"
                     }
@@ -334,12 +341,12 @@ function NavLink({ data }: { data: NavLinkSchema }) {
                 </Link>
 
                 <Link
-                  href={"/admin/users"}
+                  href={"/admin/users/earners"}
                   className="flex gap-[12px] items-center rounded-[4px]"
                 >
                   <p
                     className={
-                      pathname.includes("/admin/users")
+                      pathname.includes("/admin/users/earners")
                         ? "flex-grow small text-text-muted leading-[20px] !font-medium py-[8px] px-[12px] bg-background-hover border-[2px] rounded-[4px]"
                         : "flex-grow small text-text-normal leading-[20px] py-[8px] px-[12px]"
                     }
@@ -349,12 +356,12 @@ function NavLink({ data }: { data: NavLinkSchema }) {
                 </Link>
 
                 <Link
-                  href={"/admin/users"}
+                  href={"/admin/users/support"}
                   className="flex gap-[12px] items-center rounded-[4px]"
                 >
                   <p
                     className={
-                      pathname.includes("/admin/users")
+                      pathname.includes("/admin/users/support")
                         ? "flex-grow small text-text-muted leading-[20px] !font-medium py-[8px] px-[12px] bg-background-hover border-[2px] rounded-[4px]"
                         : "flex-grow small text-text-normal leading-[20px] py-[8px] px-[12px]"
                     }
