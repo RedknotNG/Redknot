@@ -31,8 +31,24 @@ export function TableHeader({
   );
 }
 
-export function TableRow({ title }: { title: string }) {
-  return <p className="small text-[#667085] text-center py-[30px]">{title}</p>;
+export function TableRow({
+  title,
+  darkColor = false,
+  bold = false,
+}: {
+  title: string;
+  darkColor?: boolean;
+  bold?: boolean;
+}) {
+  return (
+    <p
+      className={`small text-center py-[30px] ${
+        !darkColor ? "text-[#667085]" : "text-text-loud"
+      } ${!bold ? "!font-normal" : "!font-medium"}`}
+    >
+      {title}
+    </p>
+  );
 }
 
 export function StatusRow({ title }: { title: string }) {

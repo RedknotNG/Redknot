@@ -1,19 +1,18 @@
 "use client";
 
 import { useState } from "react";
-
-import AdminEarnerLevelsIcon from "@/icons/AdminLayout/AdminEarnerLevelsIcon";
 import SlashIcon from "@/icons/SlashIcon";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCreateLevel } from "@/api/api";
 import { BoolDropdownSchema } from "@/lib/AdminTypes";
 import BoolDropDown from "@/components/DefaultBoolDrop";
-import FileUpload from "@/components/FileUpload";
 import AdminUsersIcon from "@/icons/AdminLayout/AdminUsersIcon";
+import { useModalContext } from "@/contexts/ModalContext";
+import { useModalComponentContext } from "@/contexts/ModalComponentContext";
+import NotificationModal from "@/components/NotificationModal";
 
 const adminUsersAddEarnerSchema = z
   .object({
@@ -39,6 +38,20 @@ export default function AdminUsersAddEarner() {
   const [status, setStatus] = useState(true);
   const router = useRouter();
 
+  const { setModalActive } = useModalContext();
+  const { setModal } = useModalComponentContext();
+
+  function notifySuccess() {
+    setModalActive((prev) => !prev);
+    setModal(
+      <NotificationModal
+        type="success"
+        msg="Earner successfully created"
+        msgInfo="They can now sell products on behalf of RedKnot"
+      />
+    );
+  }
+
   function dropDownCB(value: boolean) {
     setStatus(value);
   }
@@ -63,6 +76,8 @@ export default function AdminUsersAddEarner() {
       status,
     };
     console.log(payload);
+    notifySuccess();
+    router.push("/admin/users/earners");
   }
   return (
     <div className="adminWidth flex flex-col gap-[32px] p-[32px]">
@@ -235,7 +250,7 @@ export default function AdminUsersAddEarner() {
               </label>
               <input
                 {...register("password")}
-                type="text"
+                type="password"
                 placeholder="Enter password"
                 className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
               />
@@ -255,7 +270,7 @@ export default function AdminUsersAddEarner() {
               </label>
               <input
                 {...register("confirm_password")}
-                type="text"
+                type="password"
                 placeholder="Confirm password"
                 className="font-normal font-inter text-[16px] text-text-normal leading-[24px] focus:border-none focus:outline-none"
               />
@@ -286,7 +301,7 @@ export default function AdminUsersAddEarner() {
         <div className="w-full flex gap-[10px] justify-start">
           <button
             type="button"
-            onClick={() => router.push("/admin/earner-levels")}
+            onClick={() => router.push("/admin/users/earners")}
             className="shadow bg-background-white px-[56px] py-[10px] text-text-muted rounded-[6px] hover:bg-secondary_red-100 hover:text-text-white"
           >
             Cancel

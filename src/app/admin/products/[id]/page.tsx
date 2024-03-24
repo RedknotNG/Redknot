@@ -325,7 +325,7 @@ function AddQuantity({ id }: { id: string }) {
 
         <div className="w-full flex flex-col gap-[20px]">
           <div className="flex flex-col gap-[5px]">
-            <h6 className="text-text-loud font-semibold">Add quantity</h6>
+            <h6 className="text-text-loud !font-semibold">Add quantity</h6>
             <p className="small text-text-normal">
               Nini - Adire Agbada dress (Black-small)
             </p>

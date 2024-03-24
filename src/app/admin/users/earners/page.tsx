@@ -103,7 +103,7 @@ export default function AdminUsersEarnersPage() {
         accessorKey: "created_at",
         header: () => <TableHeader title="Date Created" />,
         cell: (info: any) => {
-          return <DateRow date={info.getValue()} />;
+          return <DateRow date={info.getValue()} darkColor={true} />;
         },
       },
       {
